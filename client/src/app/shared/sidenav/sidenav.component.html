@@ -1,0 +1,12 @@
+<div class="sidebar">
+  <div class="logo">
+    <img src="/assets/images/smuklogo.svg" alt="" />
+  </div>
+  <div class="divider"></div>
+  <div class="tabs">
+    <ng *ngFor="let tab of tabs" class="tab">
+      <mat-icon class="icon">{{tab.icon}}</mat-icon>
+      <span>{{tab.naziv}}</span>
+    </ng>
+  </div>
+</div>

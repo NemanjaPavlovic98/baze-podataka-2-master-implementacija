@@ -1,0 +1,20 @@
+.container {
+    padding-top: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  
+    table {
+      width: 950px;
+      max-width: 90%;
+  
+      .cdk-column-broj{
+        width: 80px;
+      }
+    }
+  
+    button {
+      margin: 16px 8px 16px 0;
+    }
+  }
+  
