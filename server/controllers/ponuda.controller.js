@@ -15,7 +15,7 @@ async function getPonude(req, res, next) {
     );
     res.status(200).json(result.rows);
   } catch (error) {
-    res.status(404).json({ succes: false, message: error });
+    res.status(401).json({ succes: false, message: error });
   }
 }
 

@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DokumentaComponent } from './dokumenta/dokumenta.component';
 import { PonudaComponent } from './dokumenta/ponuda/ponuda.component';
 import { RacunComponent } from './dokumenta/racun/racun.component';
+import { FormaProizvodaComponent } from './preduzece/proizvodi/forma/forma.component';
 import { ProizvodiComponent } from './preduzece/proizvodi/proizvodi.component';
 
 const routes: Routes = [
@@ -20,7 +21,10 @@ const routes: Routes = [
     path: 'preduzece',
     children: [
       { path: '', component: DokumentaComponent },
-      { path: 'proizvodi', component: ProizvodiComponent },
+      { path: 'proizvodi', children: [
+        {path: '', component: ProizvodiComponent},
+        {path: 'novi', component: FormaProizvodaComponent},
+      ] },
     ],
   },
   { path: '**', redirectTo: '' },

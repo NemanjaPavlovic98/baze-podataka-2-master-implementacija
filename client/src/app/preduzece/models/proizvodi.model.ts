@@ -9,3 +9,8 @@ export interface Proizvod {
   naziv_jm: string;
   aktuelna_cena: number;
 }
+
+export interface JedinicaMere{
+  sifra_jm: number;
+  naziv_jm: string
+}

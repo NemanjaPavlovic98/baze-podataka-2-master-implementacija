@@ -1,0 +1,51 @@
+<mat-card>
+  <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+  <h1 class="mat-body-1">Dodaj novi proizvod</h1>
+  <form [formGroup]="form" (submit)="onSignup()" *ngIf="!isLoading">
+    <mat-form-field appearance="outline">
+      <mat-label>Naziv</mat-label>
+      <input matInput name="naziv" type="text" formControlName="naziv" />
+      <mat-error *ngIf="form.get('naziv').invalid">Naziv je obavezan</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Opis</mat-label>
+      <input matInput name="opis" type="text" formControlName="opis" />
+      <mat-error *ngIf="form.get('opis').invalid"
+      >Naziv je obavezan</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Jacina</mat-label>
+      <input matInput name="jacina" type="text" formControlName="jacina" />
+      <mat-error *ngIf="form.get('jacina').invalid">Naziv je obavezan</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Broj labaratorijske analize</mat-label>
+      <input matInput name="lab" type="text" formControlName="lab" />
+      <mat-error *ngIf="form.get('lab').invalid">Naziv je obavezan</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Jedinica mere</mat-label>
+      <mat-select formControlName="jedinica" name="jedinica">
+        <mat-option *ngFor="let jm of jedinice_mere" [value]="jm.sifra_jm">
+          {{ jm.naziv_jm }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- button -->
+
+    <button
+    [disabled]="form.invalid"
+      *ngIf="!isLoading"
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="button"
+    >
+      Dodaj proizvod
+    </button>
+  </form>
+</mat-card>

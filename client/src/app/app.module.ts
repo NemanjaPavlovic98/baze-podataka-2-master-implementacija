@@ -15,6 +15,8 @@ import { DatePipe } from '@angular/common';
 import { ZaposleniComponent } from './preduzece/zaposleni/zaposleni.component';
 import { PonudaFormaComponent } from './dokumenta/ponuda/ponuda-forma/ponuda-forma.component';
 import { ProizvodiComponent } from './preduzece/proizvodi/proizvodi.component';
+import { FormaProizvodaComponent } from './preduzece/proizvodi/forma/forma.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { ProizvodiComponent } from './preduzece/proizvodi/proizvodi.component';
     PonudaComponent,
     ZaposleniComponent,
     PonudaFormaComponent,
-    ProizvodiComponent
+    ProizvodiComponent,
+    FormaProizvodaComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,8 +37,9 @@ import { ProizvodiComponent } from './preduzece/proizvodi/proizvodi.component';
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [DatePipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
