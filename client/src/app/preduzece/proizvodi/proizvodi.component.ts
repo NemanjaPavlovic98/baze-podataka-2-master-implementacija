@@ -9,9 +9,7 @@ import { PreduzeceService } from '../services/preduzece.service';
 export class ProizvodiComponent implements OnInit {
   displayedColumns = {
     naziv: 'Naziv',
-    opis: 'Opis',
-    jacina: 'Jacina',
-    br_lab_analize: 'Br. Lab. Analize',
+    p_info: 'Opis-Jacina-Br analize',
     naziv_jm: 'Jedinica mere',
     aktuelna_cena: 'Aktuelna cena',
   };
@@ -25,8 +23,11 @@ export class ProizvodiComponent implements OnInit {
  }
 
   ngOnInit(): void {
-    this.preduzeceService.getPonude().subscribe((res) => {
+    this.preduzeceService.getProizvodi().subscribe((res) => {
       this.dataSource = res;
+      // res.forEach(row =>{
+      //   console.log(row?.p_info)
+      // })
     });
   }
 }

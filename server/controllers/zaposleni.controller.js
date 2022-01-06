@@ -1,20 +1,19 @@
 const db = require("../db/index");
 
-async function getJedinicaMere(req, res, next) {
+async function getZaposleni(req, res, next) {
   try {
-    const result = await db.query("SELECT * FROM jedinica_mere", []);
+    const result = await db.query("SELECT * FROM zaposleni", []);
     res.status(200).json(result.rows);
   } catch (error) {
     res.status(404).json({ succes: false, message: error });
   }
 }
 
-async function postJedinicaMere(req, res, next) {
+async function postZaposleni(req, res, next) {
   try {
-    console.log(req.body)
     const result = await db.query(
-        `INSERT INTO jedinica_mere(naziv_jm) VALUES($1)`,
-        [req.body.naziv]);
+        `INSERT INTO zaposleni(ime, prezime) VALUES($1, $2)`,
+        [req.body.ime, req.body.prezime]);
     res.status(200).json(result.rows);
   } catch (error) {
     res.status(error.status || 500);
@@ -22,4 +21,4 @@ async function postJedinicaMere(req, res, next) {
   }
 }
 
-module.exports = { getJedinicaMere, postJedinicaMere };
+module.exports = { getZaposleni, postZaposleni };

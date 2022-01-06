@@ -4,9 +4,70 @@
   </div>
   <div class="divider"></div>
   <div class="tabs">
-    <ng *ngFor="let tab of tabs" class="tab">
-      <mat-icon class="icon">{{tab.icon}}</mat-icon>
-      <span>{{tab.naziv}}</span>
-    </ng>
+    <!-- pocetna -->
+    <div class="tab">
+      <mat-icon class="icon">home</mat-icon>
+      <span>Početna</span>
+    </div>
+    <div class="tab">
+      <mat-icon class="icon">receipt_long</mat-icon>
+      <span mat-button [matMenuTriggerFor]="dokumenta">Dokumenta</span>
+      <mat-menu #dokumenta="matMenu">
+        <button mat-menu-item>
+          Racun
+        </button>
+        <button mat-menu-item>
+          Otpremnica
+        </button>
+      </mat-menu>
+    </div>
+    <!-- knjiga tocenja -->
+    <div class="tab">
+      <mat-icon class="icon">auto_stories</mat-icon>
+      <span>Knjiga tocenja</span>
+    </div>
+    <!-- porudzbine -->
+    <div  mat-button [matMenuTriggerFor]="porudzbine" class="tab">
+      <mat-icon class="icon">local_shipping</mat-icon>
+      <span>Porudzbine</span>
+      <mat-menu #porudzbine="matMenu">
+        <button  [routerLink]="['/porudzbine/mesta']" mat-menu-item>
+          Mesta
+        </button>
+      </mat-menu>
+    </div>
+    <!-- preduzece -->
+    <div mat-button [matMenuTriggerFor]="zaposleni" class="tab">
+      <mat-icon class="icon">badge</mat-icon>
+      <span>Preduzece</span>
+      <mat-menu #zaposleni="matMenu">
+        <button  [routerLink]="['/preduzece/zaposleni']" mat-menu-item>
+          Zaposleni
+        </button>
+        <button  [routerLink]="['/preduzece/proizvodi']" mat-menu-item>
+          Proizvodi
+        </button>
+      </mat-menu>
+    </div>
+
+    <!-- <button mat-button [matMenuTriggerFor]="animals">Animal index</button>
+    <mat-menu #animals="matMenu">
+      <button mat-menu-item [matMenuTriggerFor]="vertebrates">
+        Vertebrates
+      </button>
+      <button mat-menu-item>
+        Invertebrates
+      </button>
+    </mat-menu>
+
+    <mat-menu #vertebrates="matMenu">
+      <button mat-menu-item >Fishes</button>
+      <button mat-menu-item >Amphibians</button>
+      <button mat-menu-item >Reptiles</button>
+      <button mat-menu-item>Birds</button>
+      <button mat-menu-item>Mammals</button>
+    </mat-menu> -->
+
+
   </div>
 </div>

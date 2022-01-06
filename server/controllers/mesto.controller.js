@@ -5,7 +5,19 @@ async function getMesta(req, res, next) {
     const result = await db.query("SELECT * FROM mesto", []);
     res.status(200).json(result.rows);
   } catch (error) {
-    res.status(404).json({ succes: false, message: error });
+    res.status(404).json({ message: error });
+  }
+}
+
+async function postMesto(req, res, next) {
+  try {
+    const result = await db.query(
+        `INSERT INTO mesto(postanski_broj, naziv_mesta) VALUES($1, $2)`,
+        [req.body.postanski_broj, req.body.naziv_mesta]);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
   }
 }
 
@@ -44,4 +56,4 @@ async function getAllSum(req, res, nest) {
   }
 }
 
-module.exports = { getMesta, getUlica, getAdresa, getAllSum };
+module.exports = { getMesta, postMesto, getUlica, getAdresa, getAllSum };

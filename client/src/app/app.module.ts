@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,7 +16,11 @@ import { ZaposleniComponent } from './preduzece/zaposleni/zaposleni.component';
 import { PonudaFormaComponent } from './dokumenta/ponuda/ponuda-forma/ponuda-forma.component';
 import { ProizvodiComponent } from './preduzece/proizvodi/proizvodi.component';
 import { FormaProizvodaComponent } from './preduzece/proizvodi/forma/forma.component';
+
 import { ReactiveFormsModule } from '@angular/forms';
+import { ErrorInterceptor } from './utilities/error.interceptor';
+import { MestaComponent } from './porudzbine/mesta/mesta.component';
+import { JedinicaMereComponent } from './preduzece/jedinica-mere/jedinica-mere.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +34,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     PonudaFormaComponent,
     ProizvodiComponent,
     FormaProizvodaComponent,
+    MestaComponent,
+    JedinicaMereComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +45,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,9 +1,10 @@
 export interface Proizvod {
   proizvod_id: number;
   naziv: string;
-  opis: string;
-  jacina: number;
-  br_lab_analize: string;
+  // opis: string;
+  // jacina: number;
+  // br_lab_analize: string;
+  p_info: string;
   sifra_jm: number;
   pdv_id: number;
   naziv_jm: string;
@@ -13,4 +14,9 @@ export interface Proizvod {
 export interface JedinicaMere{
   sifra_jm: number;
   naziv_jm: string
+}
+
+export interface Zaposleni{
+  ime: string;
+  prezime: string;
 }

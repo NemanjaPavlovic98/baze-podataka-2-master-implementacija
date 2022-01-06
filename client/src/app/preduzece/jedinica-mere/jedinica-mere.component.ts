@@ -1,22 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { map } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/toast.service';
+import { JedinicaMere } from '../models/proizvodi.model';
 import { PreduzeceService } from '../services/preduzece.service';
 
 @Component({
-  selector: 'app-zaposleni',
-  templateUrl: './zaposleni.component.html',
-  styleUrls: ['./zaposleni.component.scss'],
+  selector: 'app-jedinica-mere',
+  templateUrl: './jedinica-mere.component.html',
+  styleUrls: ['./jedinica-mere.component.scss']
 })
-export class ZaposleniComponent implements OnInit {
+export class JedinicaMereComponent implements OnInit {
+
   @ViewChild('formDirective') private formDirective: NgForm;
   
   form: FormGroup;
   error: string;
 
   displayedColumns = {
-    ime: 'Ime',
-    prezime: 'Prezime',
+    naziv: 'Naziv',
   };
   displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
   dataSource = [];
@@ -30,17 +32,24 @@ export class ZaposleniComponent implements OnInit {
     return Object.keys(obj);
   }
 
-  private getZaposleni() {
-    this.preduzeceService.getZaposleni().subscribe((res) => {
+  private getJedinica() {
+    this.preduzeceService.getJediniceMere()
+    .pipe(
+      map((response:JedinicaMere[]) => {
+        return response.map(arr =>{
+           return {naziv: arr.naziv_jm}
+        })
+      })
+    )
+    .subscribe((res) => {
       this.dataSource = res;
     });
   }
   ngOnInit(): void {
-    this.getZaposleni();
+    this.getJedinica();
 
     this.form = new FormGroup({
-      ime: new FormControl(null, Validators.required),
-      prezime: new FormControl(null, Validators.required),
+      naziv: new FormControl(null, Validators.required),
     });
   }
 
@@ -48,11 +57,12 @@ export class ZaposleniComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.preduzeceService.postZaposleni(this.form.value).subscribe((res) => {
+    this.preduzeceService.postJediniceMere(this.form.value).subscribe((res) => {
       this.form.reset();
       this.formDirective.resetForm();
-      this.toastService.fireToast('success', 'Zaposleni uspesno dodat!');
-      this.getZaposleni();
+      this.toastService.fireToast('success', 'Jedinica mere uspesno dodata!');
+      this.getJedinica();
     });
   }
+
 }

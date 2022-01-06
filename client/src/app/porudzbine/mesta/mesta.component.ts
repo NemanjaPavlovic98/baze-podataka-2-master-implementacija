@@ -1,28 +1,30 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastService } from 'src/app/shared/toast.service';
-import { PreduzeceService } from '../services/preduzece.service';
+import { PorudzbineService } from '../services/porudzbine.service';
+
 
 @Component({
-  selector: 'app-zaposleni',
-  templateUrl: './zaposleni.component.html',
-  styleUrls: ['./zaposleni.component.scss'],
+  selector: 'app-mesta',
+  templateUrl: './mesta.component.html',
+  styleUrls: ['./mesta.component.scss']
 })
-export class ZaposleniComponent implements OnInit {
+export class MestaComponent implements OnInit {
+
   @ViewChild('formDirective') private formDirective: NgForm;
   
   form: FormGroup;
   error: string;
 
   displayedColumns = {
-    ime: 'Ime',
-    prezime: 'Prezime',
+    postanski_broj: 'Postanski broj',
+    naziv_mesta: 'Naziv mesta',
   };
   displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
   dataSource = [];
 
   constructor(
-    private preduzeceService: PreduzeceService,
+    private porudzbineService: PorudzbineService,
     private toastService: ToastService
   ) {}
 
@@ -30,17 +32,17 @@ export class ZaposleniComponent implements OnInit {
     return Object.keys(obj);
   }
 
-  private getZaposleni() {
-    this.preduzeceService.getZaposleni().subscribe((res) => {
+  private getMesta() {
+    this.porudzbineService.getMesta().subscribe((res) => {
       this.dataSource = res;
     });
   }
   ngOnInit(): void {
-    this.getZaposleni();
+    this.getMesta();
 
     this.form = new FormGroup({
-      ime: new FormControl(null, Validators.required),
-      prezime: new FormControl(null, Validators.required),
+      postanski_broj: new FormControl(null, Validators.required),
+      naziv_mesta: new FormControl(null, Validators.required),
     });
   }
 
@@ -48,11 +50,12 @@ export class ZaposleniComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.preduzeceService.postZaposleni(this.form.value).subscribe((res) => {
+    this.porudzbineService.postMesto(this.form.value).subscribe((res) => {
       this.form.reset();
       this.formDirective.resetForm();
-      this.toastService.fireToast('success', 'Zaposleni uspesno dodat!');
-      this.getZaposleni();
+      this.toastService.fireToast('success', 'Mesto uspesno dodato!');
+      this.getMesta();
     });
   }
+
 }
