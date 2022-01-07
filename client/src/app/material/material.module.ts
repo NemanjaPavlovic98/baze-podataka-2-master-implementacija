@@ -10,7 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatSelectModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
 })
 export class MaterialModule {}

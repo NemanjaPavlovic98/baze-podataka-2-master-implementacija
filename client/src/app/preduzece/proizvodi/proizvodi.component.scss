@@ -7,6 +7,10 @@
     table {
       width: 950px;
       max-width: 90%;
+
+      mat-icon{
+        cursor: pointer;
+      }
   
       .cdk-column-broj{
         width: 80px;

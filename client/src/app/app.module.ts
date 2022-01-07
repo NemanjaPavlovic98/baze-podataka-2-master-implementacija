@@ -21,6 +21,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor } from './utilities/error.interceptor';
 import { MestaComponent } from './porudzbine/mesta/mesta.component';
 import { JedinicaMereComponent } from './preduzece/jedinica-mere/jedinica-mere.component';
+import { CeneComponent } from './preduzece/proizvodi/cene/cene.component';
+import { KnjigaTocejnaComponent } from './dokumenta/knjiga-tocejna/knjiga-tocejna.component';
+import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/forma.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { JedinicaMereComponent } from './preduzece/jedinica-mere/jedinica-mere.c
     FormaProizvodaComponent,
     MestaComponent,
     JedinicaMereComponent,
+    CeneComponent,
+    KnjigaTocejnaComponent,
+    FormaKnjigeTocenjaComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,3 +10,15 @@ export interface Ponude {
     naziv_ulice: string;
     broj: number;
   }
+
+  export interface KnjigaTocenja {
+    oznaka: number,
+    izdanje: string,
+    datum: string,
+    ponuda_id: number,
+    opis: string,
+    izdao_ime: string,
+    izdao_prezime: string,
+    primio_ime: string,
+    primio_prezime: string
+  }

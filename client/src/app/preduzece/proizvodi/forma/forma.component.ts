@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from 'src/app/shared/toast.service';
 import { JedinicaMere } from '../../models/proizvodi.model';
 import { PreduzeceService } from '../../services/preduzece.service';
 
-export interface Food {
-  value: string;
-  viewValue: string;
-}
 @Component({
   selector: 'app-forma-proizvod',
   templateUrl: './forma.component.html',
@@ -23,7 +20,8 @@ export class FormaProizvodaComponent implements OnInit {
   constructor(
     private preduzeceService: PreduzeceService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -44,8 +42,8 @@ export class FormaProizvodaComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    console.log(this.form.value);
     this.preduzeceService.postProizvodi(this.form.value).subscribe((res) => {
+      this.toastService.fireToast('success', 'Proizvod dodat!');
       this.router.navigate(['../'], { relativeTo: this.route });
     });
   }

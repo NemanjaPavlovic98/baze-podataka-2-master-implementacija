@@ -1,0 +1,59 @@
+<mat-card>
+    <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+    <h1 class="mat-body-1">Dodaj novi rekord</h1>
+    <form [formGroup]="form" (submit)="onSignup()">
+      <mat-form-field appearance="outline">
+        <mat-label>Oznaka</mat-label>
+        <input matInput name="oznaka" type="text" formControlName="oznaka" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Izdanje</mat-label>
+        <input matInput name="izdanje" type="text" formControlName="izdanje" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Datum</mat-label>
+        <input matInput name="datum" formControlName="datum" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="half" appearance="outline">
+        <mat-label>Nalog izdao</mat-label>
+        <mat-select formControlName="nalog_izdao" name="nalog_izdao">
+          <mat-option *ngFor="let zap of zaposleni" [value]="zap.zaposleni_id">
+            {{ zap.ime + ' ' +  zap.prezime }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+     
+      <mat-form-field class="half" appearance="outline">
+        <mat-label>Nalog primio</mat-label>
+        <mat-select formControlName="nalog_primio" name="nalog_primio">
+          <mat-option *ngFor="let zap of zaposleni" [value]="zap.zaposleni_id">
+            {{ zap.ime + ' ' +  zap.prezime }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ponuda</mat-label>
+        <mat-select formControlName="ponuda" name="ponuda">
+          <mat-option *ngFor="let ponuda of ponude" [value]="ponuda.ponuda_id">
+           ponuda  {{ ponuda.ponuda_id + ' - ' +  ponuda.opis }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- button -->
+      <button
+      [disabled]="form.invalid"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="button"
+      >
+        Dodaj red u knjigu
+      </button>
+    </form>
+  </mat-card>
+  

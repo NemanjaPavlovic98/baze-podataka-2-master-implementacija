@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PonudaService } from '../services/ponuda.service';
+import { PonudaService } from '../services/dokumenta.service';
 
 @Component({
   selector: 'app-ponuda',

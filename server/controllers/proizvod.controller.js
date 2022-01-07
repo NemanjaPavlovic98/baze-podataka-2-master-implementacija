@@ -30,4 +30,27 @@ async function postProizvod(req, res, next) {
   }
 }
 
-module.exports = { getProizvodi, postProizvod };
+async function getCeneZaProizvod(req, res, next) {
+  try {
+    const result = await db.query(
+      "select c.iznos, c.datum, p.naziv, c.proizvod_id from cena c join proizvod p on c.proizvod_id = p.proizvod_id where c.proizvod_id = $1",
+      [req.params.id]);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(404).json({ succes: false, message: error });
+  }
+}
+
+async function postCeneZaProizvod(req, res, next) {
+  try {
+    const result = await db.query(
+        `INSERT INTO cena(proizvod_id, datum, iznos) VALUES($1, $2, $3)`,
+        [req.body.proizvod_id, req.body.datum, req.body.cena]);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+module.exports = { getProizvodi, postProizvod, getCeneZaProizvod, postCeneZaProizvod };

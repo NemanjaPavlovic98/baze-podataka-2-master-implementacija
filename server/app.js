@@ -7,7 +7,7 @@ const ponudaRoutes=require('./routes/ponuda');
 const proizvodRoutes=require('./routes/proizvod');
 const jedinicaMereRoutes=require('./routes/jedinica_mere');
 const zaposleniRoutes=require('./routes/zaposleni');
-
+const knjigaTocenjaRoutes=require('./routes/knjiga_tocejna');
 
 const app = express();
 
@@ -39,6 +39,7 @@ app.use("/ponuda", ponudaRoutes);
 app.use("/proizvod", proizvodRoutes);
 app.use("/jedinica-mere", jedinicaMereRoutes);
 app.use("/zaposleni", zaposleniRoutes);
+app.use("/knjiga-tocenja", knjigaTocenjaRoutes);
 
 
 module.exports = app;

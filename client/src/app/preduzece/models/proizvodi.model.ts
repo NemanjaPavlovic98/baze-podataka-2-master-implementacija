@@ -20,3 +20,10 @@ export interface Zaposleni{
   ime: string;
   prezime: string;
 }
+
+export interface CeneProizvod{
+  proizvod_id: number,
+  iznos: string,
+  datum: string,
+  naziv: string
+}

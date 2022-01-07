@@ -11,7 +11,6 @@ async function getJedinicaMere(req, res, next) {
 
 async function postJedinicaMere(req, res, next) {
   try {
-    console.log(req.body)
     const result = await db.query(
         `INSERT INTO jedinica_mere(naziv_jm) VALUES($1)`,
         [req.body.naziv]);

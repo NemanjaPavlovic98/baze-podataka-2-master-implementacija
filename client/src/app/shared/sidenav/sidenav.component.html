@@ -9,20 +9,23 @@
       <mat-icon class="icon">home</mat-icon>
       <span>Početna</span>
     </div>
-    <div class="tab">
+    <div [matMenuTriggerFor]="dokumenta" class="tab">
       <mat-icon class="icon">receipt_long</mat-icon>
-      <span mat-button [matMenuTriggerFor]="dokumenta">Dokumenta</span>
+      <span mat-button>Dokumenta</span>
       <mat-menu #dokumenta="matMenu">
-        <button mat-menu-item>
+        <button [routerLink]="['/dokumenta/racun']" mat-menu-item>
           Racun
         </button>
         <button mat-menu-item>
           Otpremnica
         </button>
+        <button [routerLink]="['/dokumenta/ponuda']" mat-menu-item>
+          Ponuda
+        </button>
       </mat-menu>
     </div>
-    <!-- knjiga tocenja -->
-    <div class="tab">
+    <!-- knjiga tocenja --> 
+    <div class="tab" [routerLink]="['/dokumenta/knjiga-tocenja']">
       <mat-icon class="icon">auto_stories</mat-icon>
       <span>Knjiga tocenja</span>
     </div>
@@ -31,7 +34,7 @@
       <mat-icon class="icon">local_shipping</mat-icon>
       <span>Porudzbine</span>
       <mat-menu #porudzbine="matMenu">
-        <button  [routerLink]="['/porudzbine/mesta']" mat-menu-item>
+        <button [routerLink]="['/porudzbine/mesta']" mat-menu-item>
           Mesta
         </button>
       </mat-menu>

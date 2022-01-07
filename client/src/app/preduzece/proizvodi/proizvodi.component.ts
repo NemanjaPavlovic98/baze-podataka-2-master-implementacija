@@ -25,9 +25,6 @@ export class ProizvodiComponent implements OnInit {
   ngOnInit(): void {
     this.preduzeceService.getProizvodi().subscribe((res) => {
       this.dataSource = res;
-      // res.forEach(row =>{
-      //   console.log(row?.p_info)
-      // })
     });
   }
 }
