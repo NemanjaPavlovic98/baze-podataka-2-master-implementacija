@@ -24,6 +24,7 @@ import { JedinicaMereComponent } from './preduzece/jedinica-mere/jedinica-mere.c
 import { CeneComponent } from './preduzece/proizvodi/cene/cene.component';
 import { KnjigaTocejnaComponent } from './dokumenta/knjiga-tocejna/knjiga-tocejna.component';
 import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/forma.component';
+import { KlijentiComponent } from './porudzbine/klijenti/klijenti.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/fo
     CeneComponent,
     KnjigaTocejnaComponent,
     FormaKnjigeTocenjaComponent,
+    KlijentiComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,3 +22,8 @@ export interface Ponude {
     primio_ime: string,
     primio_prezime: string
   }
+
+  export interface KnjigaTocenjaOsnovno {
+    oznaka: number,
+    izdanje: string,
+  }

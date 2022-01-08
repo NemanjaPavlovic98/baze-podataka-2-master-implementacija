@@ -12,6 +12,18 @@ async function getKnjigaTocenja(req, res, next) {
   }
 }
 
+async function getKnjigaTocenjaOsnovno(req, res, next) {
+  try {
+    const knjiga_tocenja = await db.query(
+      "select * from knjigatocenjaosnovno",
+      []
+    );
+    res.status(200).json(knjiga_tocenja.rows);
+  } catch (error) {
+    res.status(404).json({ succes: false, message: error });
+  }
+}
+
 async function postKnjigaTocenja(req, res, next) {
   try {
     const result = await db.query(
@@ -25,4 +37,4 @@ async function postKnjigaTocenja(req, res, next) {
   }
 }
 
-module.exports = { getKnjigaTocenja, postKnjigaTocenja };
+module.exports = { getKnjigaTocenja, postKnjigaTocenja, getKnjigaTocenjaOsnovno };

@@ -6,6 +6,7 @@ import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/fo
 import { KnjigaTocejnaComponent } from './dokumenta/knjiga-tocejna/knjiga-tocejna.component';
 import { PonudaComponent } from './dokumenta/ponuda/ponuda.component';
 import { RacunComponent } from './dokumenta/racun/racun.component';
+import { KlijentiComponent } from './porudzbine/klijenti/klijenti.component';
 import { MestaComponent } from './porudzbine/mesta/mesta.component';
 import { JedinicaMereComponent } from './preduzece/jedinica-mere/jedinica-mere.component';
 import { CeneComponent } from './preduzece/proizvodi/cene/cene.component';
@@ -50,8 +51,8 @@ const routes: Routes = [
         {path: '', component: MestaComponent},
         {path: 'novi', component: FormaProizvodaComponent},
       ] },
-      { path: 'zaposleni', children: [
-        {path: '', component: ZaposleniComponent}
+      { path: 'klijenti', children: [
+        {path: '', component: KlijentiComponent}
       ]}
     ],
   },

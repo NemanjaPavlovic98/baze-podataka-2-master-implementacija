@@ -55,7 +55,7 @@ export class FormaKnjigeTocenjaComponent implements OnInit {
     }
 
     this.form.value.datum = this.datepipe.transform(this.form.value.datum, 'yyyy-MM-dd');
-    console.log(this.form.value)
+    console.log(typeof this.form.value.datum)
     this.ponudaService.postKnjigaTocenja(this.form.value).subscribe(res => {
       this.toastService.fireToast('success', 'Rekord knjige tocenja zabelezen!');
       this.router.navigate(['../'], { relativeTo: this.route });

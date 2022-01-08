@@ -1,18 +1,19 @@
 const express = require("express");
 // const path = require("path");
 
-const testRoutes=require('./routes/test');
-const mestoRoutes=require('./routes/mesto');
-const ponudaRoutes=require('./routes/ponuda');
-const proizvodRoutes=require('./routes/proizvod');
-const jedinicaMereRoutes=require('./routes/jedinica_mere');
-const zaposleniRoutes=require('./routes/zaposleni');
-const knjigaTocenjaRoutes=require('./routes/knjiga_tocejna');
+const testRoutes = require("./routes/test");
+const mestoRoutes = require("./routes/mesto");
+const ponudaRoutes = require("./routes/ponuda");
+const proizvodRoutes = require("./routes/proizvod");
+const jedinicaMereRoutes = require("./routes/jedinica_mere");
+const zaposleniRoutes = require("./routes/zaposleni");
+const knjigaTocenjaRoutes = require("./routes/knjiga_tocejna");
+const kupacRoutes = require("./routes/kupac");
 
 const app = express();
 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // app.use("/images", express.static(path.join("./", "/resources/images")));
 
@@ -40,6 +41,6 @@ app.use("/proizvod", proizvodRoutes);
 app.use("/jedinica-mere", jedinicaMereRoutes);
 app.use("/zaposleni", zaposleniRoutes);
 app.use("/knjiga-tocenja", knjigaTocenjaRoutes);
-
+app.use("/kupac", kupacRoutes);
 
 module.exports = app;
