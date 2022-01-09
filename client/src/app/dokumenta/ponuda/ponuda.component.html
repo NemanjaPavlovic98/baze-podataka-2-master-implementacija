@@ -2,7 +2,7 @@
   <div class="content">
     <h1>Ponude</h1>
     <div class="buttons">
-      <button mat-raised-button>Nova Ponuda</button>
+      <button [routerLink]="['/dokumenta/ponuda/nova-ponuda']" mat-raised-button>Nova Ponuda</button>
     </div>
 
     <form [formGroup]="form" (submit)="onSearch()">

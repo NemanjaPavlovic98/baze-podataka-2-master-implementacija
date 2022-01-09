@@ -11,7 +11,7 @@ import { PonudaService } from '../services/dokumenta.service';
 export class PonudaComponent implements OnInit {
   form: FormGroup;
 
-  displayedColumns: string[] = ['datum', 'naziv', 'pib', 'telefon', 'postanski_broj', 'naziv_mesta', 'naziv_ulice', 'broj'];
+  displayedColumns: string[] = ['datum', 'opis', 'naziv', 'pib', 'telefon', 'postanski_broj', 'naziv_mesta', 'naziv_ulice', 'broj'];
   displayedColumnsFull: string[] = [...this.displayedColumns, 'actions'];
   dataSource = [];
 

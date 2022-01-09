@@ -25,6 +25,8 @@ import { CeneComponent } from './preduzece/proizvodi/cene/cene.component';
 import { KnjigaTocejnaComponent } from './dokumenta/knjiga-tocejna/knjiga-tocejna.component';
 import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/forma.component';
 import { KlijentiComponent } from './porudzbine/klijenti/klijenti.component';
+import { StavkeRacunaComponent } from './dokumenta/racun/stavke-racuna/stavke-racuna.component';
+import { FormaRacunComponent } from './dokumenta/racun/forma-racun/forma-racun.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { KlijentiComponent } from './porudzbine/klijenti/klijenti.component';
     KnjigaTocejnaComponent,
     FormaKnjigeTocenjaComponent,
     KlijentiComponent,
+    StavkeRacunaComponent,
+    FormaRacunComponent,
   ],
   imports: [
     BrowserModule,

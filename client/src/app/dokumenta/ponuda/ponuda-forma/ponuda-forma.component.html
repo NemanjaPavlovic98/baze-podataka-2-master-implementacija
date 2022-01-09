@@ -1,1 +1,38 @@
-<p>ponuda-forma works!</p>a
+<mat-card>
+    <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+    <h1 class="mat-body-1">Dodaj novi rekord</h1>
+    <form [formGroup]="form" (submit)="onSignup()">
+        <mat-form-field appearance="outline">
+          <mat-label>Datum</mat-label>
+          <input matInput name="datum" formControlName="datum" [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Opis</mat-label>
+        <input matInput name="opis" type="text" formControlName="opis" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Klijent</mat-label>
+        <mat-select formControlName="klijent" name="klijent">
+          <mat-option *ngFor="let kupac of kupci" [value]="kupac.kupac_id">
+            {{ kupac.naziv }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+     
+      <!-- button -->
+      <button
+      [disabled]="form.invalid"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="button"
+      >
+        Dodaj red u knjigu
+      </button>
+    </form>
+  </mat-card>
+  

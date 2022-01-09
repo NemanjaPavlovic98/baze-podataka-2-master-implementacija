@@ -1,7 +1,6 @@
 const db = require("../db/index");
 
 async function getPonude(req, res, next) {
-
   const parameter = req.query.year ? `_${req.query.year}` : '1';
   console.log(parameter)
   try {
@@ -27,4 +26,17 @@ async function getPonude(req, res, next) {
   }
 }
 
-module.exports = { getPonude };
+async function postPonuda(req, res, next) {
+  try {
+    const result = await db.query(
+        `INSERT INTO ponuda1(datum, kupac_id, opis)
+        VALUES ($1, $2, $3);`,
+        [req.body.datum, +req.body.klijent, req.body.opis]);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+module.exports = { getPonude, postPonuda };

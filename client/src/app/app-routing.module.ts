@@ -4,8 +4,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DokumentaComponent } from './dokumenta/dokumenta.component';
 import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/forma.component';
 import { KnjigaTocejnaComponent } from './dokumenta/knjiga-tocejna/knjiga-tocejna.component';
+import { PonudaFormaComponent } from './dokumenta/ponuda/ponuda-forma/ponuda-forma.component';
 import { PonudaComponent } from './dokumenta/ponuda/ponuda.component';
+import { FormaRacunComponent } from './dokumenta/racun/forma-racun/forma-racun.component';
 import { RacunComponent } from './dokumenta/racun/racun.component';
+import { StavkeRacunaComponent } from './dokumenta/racun/stavke-racuna/stavke-racuna.component';
 import { KlijentiComponent } from './porudzbine/klijenti/klijenti.component';
 import { MestaComponent } from './porudzbine/mesta/mesta.component';
 import { JedinicaMereComponent } from './preduzece/jedinica-mere/jedinica-mere.component';
@@ -20,40 +23,64 @@ const routes: Routes = [
     path: 'dokumenta',
     children: [
       { path: '', component: DokumentaComponent },
-      { path: 'racun', component: RacunComponent },
-      { path: 'ponuda', component: PonudaComponent },
-      { path: 'knjiga-tocenja', children: [
-        {path: '', component: KnjigaTocejnaComponent},
-        {path: 'nova-knjiga-tocenja', component: FormaKnjigeTocenjaComponent}
+      { path: 'racun', children: [
+        {path: '', component: RacunComponent},
+        {path: 'novi', component: FormaRacunComponent},
+        {path: 'stavke-racuna/:broj_racuna', component: StavkeRacunaComponent},
       ] },
+      {
+        path: 'ponuda',
+        children: [
+          { path: '', component: PonudaComponent },
+          { path: 'nova-ponuda', component: PonudaFormaComponent },
+        ],
+      },
+      {
+        path: 'knjiga-tocenja',
+        children: [
+          { path: '', component: KnjigaTocejnaComponent },
+          {
+            path: 'nova-knjiga-tocenja',
+            component: FormaKnjigeTocenjaComponent,
+          },
+        ],
+      },
     ],
   },
   {
     path: 'preduzece',
     children: [
       { path: '', component: DokumentaComponent },
-      { path: 'proizvodi', children: [
-        {path: '', component: ProizvodiComponent},
-        {path: 'novi', component: FormaProizvodaComponent},
-        {path: 'cene/:id', component: CeneComponent},
-      ] },
+      {
+        path: 'proizvodi',
+        children: [
+          { path: '', component: ProizvodiComponent },
+          { path: 'novi', component: FormaProizvodaComponent },
+          { path: 'cene/:id', component: CeneComponent },
+        ],
+      },
       { path: 'jedinice-mere', component: JedinicaMereComponent },
-      { path: 'zaposleni', children: [
-        {path: '', component: ZaposleniComponent}
-      ]}
+      {
+        path: 'zaposleni',
+        children: [{ path: '', component: ZaposleniComponent }],
+      },
     ],
   },
   {
     path: 'porudzbine',
     children: [
       { path: '', component: MestaComponent },
-      { path: 'mesta', children: [
-        {path: '', component: MestaComponent},
-        {path: 'novi', component: FormaProizvodaComponent},
-      ] },
-      { path: 'klijenti', children: [
-        {path: '', component: KlijentiComponent}
-      ]}
+      {
+        path: 'mesta',
+        children: [
+          { path: '', component: MestaComponent },
+          { path: 'novi', component: FormaProizvodaComponent },
+        ],
+      },
+      {
+        path: 'klijenti',
+        children: [{ path: '', component: KlijentiComponent }],
+      },
     ],
   },
   { path: '**', redirectTo: '' },

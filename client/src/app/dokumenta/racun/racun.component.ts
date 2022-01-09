@@ -8,10 +8,13 @@ import { PonudaService } from '../services/dokumenta.service';
 })
 export class RacunComponent implements OnInit {
   displayedColumns = {
-    naziv: 'Naziv',
-    p_info: 'Opis-Jacina-Br analize',
-    naziv_jm: 'Jedinica mere',
-    aktuelna_cena: 'Aktuelna cena',
+    broj_racuna: 'Broj racuna',
+    mesto_izdavanja: 'Mesto izdavanja',
+    datum: 'Datum izdavanja',
+    poziv_na_broj: 'Poziv na broj',
+    broj_otpremnice: 'Broj otpremnice',
+    oznaka: 'Oznaka otpremnice',
+    tekuci_racun: 'Za racun',
   };
   displayedColumnsFull= {...this.displayedColumns, actions: 'Akcije'};
   dataSource = [];
@@ -23,9 +26,9 @@ export class RacunComponent implements OnInit {
  }
 
   ngOnInit(): void {
-    // this.preduzeceService.getProizvodi().subscribe((res) => {
-    //   this.dataSource = res;
-    // });
+    this.ponudaService.getRacuni().subscribe((res) => {
+      this.dataSource = res;
+    });
   }
 
 }

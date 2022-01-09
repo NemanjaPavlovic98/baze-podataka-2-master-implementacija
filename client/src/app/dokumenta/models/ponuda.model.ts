@@ -27,3 +27,22 @@ export interface Ponude {
     oznaka: number,
     izdanje: string,
   }
+
+  export interface Racun{
+    broj_racuna: number;
+    mesto_izdavanja: string;
+    datum: string;
+    poziv_na_broj: number;
+    broj_otpremnice: number;
+    oznaka: number;
+    tekuci_racun: number;
+  }
+
+  export interface Otpremnica{
+    broj_otpremnica: number;
+    mesto_izdavanja: string;
+    datum: string;
+    tekuci_racun: number;
+    oznaka: number;
+    izdanje: string
+  }
