@@ -20,7 +20,7 @@
               <td mat-cell *matCellDef="let element">
                 <mat-icon [routerLink]="['/preduzece/proizvodi/cene', element.proizvod_id]">attach_money</mat-icon>
                 <mat-icon>edit</mat-icon>
-                <mat-icon>delete</mat-icon>
+                <mat-icon (click)="onDelete(element.proizvod_id)">delete</mat-icon>
               </td>
             </ng-container>
         

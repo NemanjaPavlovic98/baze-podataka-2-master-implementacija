@@ -3,7 +3,7 @@ const db = require("../db/index");
 async function getKnjigaTocenja(req, res, next) {
   try {
     const knjiga_tocenja = await db.query(
-      "select ktp.oznaka, ktp.izdanje, ktp.datum, p.ponuda_id, p.opis, z.ime as izdao_ime, z.prezime as izdao_prezime, z1.ime as primio_ime, z1.prezime as primio_prezime from knjiga_tocenja_pregled ktp join ponuda1 p on ktp.ponuda_id = p.ponuda_id join zaposleni z on ktp.nalog_izdao = z.zaposleni_id join zaposleni z1 on ktp.nalog_primio = z1.zaposleni_id",
+      "select DISTINCT ktp.oznaka, ktp.izdanje, ktp.datum, p.ponuda_id, p.opis, z.ime as izdao_ime, z.prezime as izdao_prezime, z1.ime as primio_ime, z1.prezime as primio_prezime from knjiga_tocenja_pregled ktp join ponuda1 p on ktp.ponuda_id = p.ponuda_id join zaposleni z on ktp.nalog_izdao = z.zaposleni_id join zaposleni z1 on ktp.nalog_primio = z1.zaposleni_id",
       []
     );
     res.status(200).json(knjiga_tocenja.rows);
@@ -37,4 +37,17 @@ async function postKnjigaTocenja(req, res, next) {
   }
 }
 
-module.exports = { getKnjigaTocenja, postKnjigaTocenja, getKnjigaTocenjaOsnovno };
+async function deleteKnjigaTocenja(req, res, next) {
+  try {
+    const result = await db.query(
+      "DELETE FROM knjiga_tocenja_pregled WHERE oznaka = $1",
+      [+req.params.id]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+module.exports = { getKnjigaTocenja, postKnjigaTocenja, getKnjigaTocenjaOsnovno, deleteKnjigaTocenja };

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 import { PonudaService } from '../services/dokumenta.service';
 
 @Component({
@@ -17,10 +18,13 @@ export class PonudaComponent implements OnInit {
 
   constructor(private ponudaService: PonudaService) { }
 
-  ngOnInit(): void {
+  getPonude(){
     this.ponudaService.getPonude().subscribe(res => {
       this.dataSource = res
     });
+  }
+  ngOnInit(): void {
+   this.getPonude();
 
     this.form = new FormGroup({
       pretraga: new FormControl(null, Validators.required)
@@ -31,6 +35,24 @@ export class PonudaComponent implements OnInit {
     this.ponudaService.getPonude(this.form.value.pretraga).subscribe(res => {
       this.dataSource = res
       console.log(this.dataSource)
+    });
+  }
+
+  onDelete(id: number, datum: string) {
+    console.log(id)
+    console.log(datum)
+    Swal.fire({
+      title: 'Da li zelite da obrisete ponudu?',
+      showCancelButton: true,
+      confirmButtonText: 'Da',
+      icon: 'warning',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ponudaService.deletePonuda(id, datum).subscribe(() => {
+          Swal.fire('Ponuda je obrisana!', '', 'success');
+          this.getPonude();
+        });
+      }
     });
   }
 }

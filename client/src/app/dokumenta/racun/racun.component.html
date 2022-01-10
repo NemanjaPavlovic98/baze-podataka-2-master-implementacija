@@ -19,7 +19,7 @@
             <td mat-cell *matCellDef="let element">
               <mat-icon [routerLink]="['/dokumenta/racun/stavke-racuna', element.broj_racuna]">attach_file</mat-icon>
               <mat-icon>edit</mat-icon>
-              <mat-icon>delete</mat-icon>
+              <mat-icon (click)="onDelete(element.broj_racuna)">delete</mat-icon>
             </td>
           </ng-container>
       

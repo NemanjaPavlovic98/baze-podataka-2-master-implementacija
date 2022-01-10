@@ -16,8 +16,8 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
-            <mat-icon>edit</mat-icon>
-            <mat-icon>delete</mat-icon>
+            <mat-icon (click)="onEdit(element.mesto_id)">edit</mat-icon>
+            <mat-icon (click)="onDelete(element.mesto_id)">delete</mat-icon>
           </td>
         </ng-container>
   
@@ -32,7 +32,7 @@
       </table>
     </div>
     <div class="form">
-      <h1>Dodaj novo mesto</h1>
+      <h1>{{editMode ? 'Azuriraj' : 'Dodaj novo'}} mesto</h1>
   
       <mat-card>
         <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
@@ -40,9 +40,6 @@
           <mat-form-field appearance="outline">
             <mat-label>Postanski broj</mat-label>
             <input matInput name="postanski_broj" type="text" formControlName="postanski_broj" />
-            <mat-error *ngIf="form.get('postanski_broj').invalid"
-              >Polje ne sme biti prazno</mat-error
-            >
           </mat-form-field>
   
           <mat-form-field appearance="outline">
@@ -53,9 +50,6 @@
               type="text"
               formControlName="naziv_mesta"
             />
-            <mat-error *ngIf="form.get('naziv_mesta').invalid"
-              >Polje ne sme biti prazno</mat-error
-            >
           </mat-form-field>
   
           <button
@@ -65,7 +59,7 @@
             type="submit"
             class="button"
           >
-            Dodaj novo mesto
+          {{editMode ? 'Azuriraj' : 'Dodaj novo'}} mesto
           </button>
         </form>
       </mat-card>

@@ -6,6 +6,7 @@ import {
   Otpremnica,
   Ponude,
   Racun,
+  StavkaRacuna,
 } from '../models/ponuda.model';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
@@ -37,11 +38,19 @@ export class PonudaService {
     return this.http.post(`${this.API_URL}/ponuda/postPonuda`, ponuda);
   }
 
+  deletePonuda(id: number, datum: string) {
+    return this.http.post(`${this.API_URL}/ponuda/deletePonuda`, {
+      ponuda_id: id,
+      datum: datum,
+    });
+  }
+
   getKnjigeTocenja() {
     return this.http
       .get(`${this.API_URL}/knjiga-tocenja/getKnjigaTocenja`)
       .pipe(
         map((res: KnjigaTocenja[]) => {
+          console.log(res);
           return res.map((knjiga: KnjigaTocenja) => {
             const novi = {
               oznaka: knjiga.oznaka,
@@ -71,10 +80,14 @@ export class PonudaService {
     );
   }
 
-  getRacuni(){
-    return this.http
-    .get<Racun[]>(`${this.API_URL}/racun/getRacuni`)
-    .pipe(
+  deleteKnjigaTocenja(id: number) {
+    return this.http.delete(
+      `${this.API_URL}/knjiga-tocenja/deleteKnjigaTocenja/${id}`
+    );
+  }
+
+  getRacuni() {
+    return this.http.get<Racun[]>(`${this.API_URL}/racun/getRacuni`).pipe(
       map((res) => {
         res.forEach((racun: Racun) => {
           racun.datum = this.datepipe.transform(racun.datum, 'yyyy-MM-dd');
@@ -85,22 +98,46 @@ export class PonudaService {
   }
 
   postRacun(racun: Partial<Racun>) {
-    return this.http.post(
-      `${this.API_URL}/racun/postRacun`,
-      racun
+    return this.http.post(`${this.API_URL}/racun/postRacun`, racun);
+  }
+
+  getStavkeRacuna(id: number) {
+    return this.http.get<StavkaRacuna[]>(
+      `${this.API_URL}/racun/getStavkeRacuna/${id}`
     );
   }
 
-  getOtpremnice(){
+  deleteRacun(id: number) {
+    return this.http.delete(`${this.API_URL}/racun/deleteRacun/${id}`);
+  }
+
+  deleteStavkaRacuna(broj_racuna: number, sifra_stavke: number) {
+    return this.http.post(`${this.API_URL}/racun/deleteStavkaRacuna`, {
+      broj_racuna: broj_racuna,
+      sifra_stavke: sifra_stavke,
+    });
+  }
+
+  getOtpremnice() {
     return this.http
-    .get<Otpremnica[]>(`${this.API_URL}/otpremnica/getOtpremnice`)
-    .pipe(
-      map((res) => {
-        res.forEach((otpremnica: Otpremnica) => {
-          otpremnica.datum = this.datepipe.transform(otpremnica.datum, 'yyyy-MM-dd');
-        });
-        return res;
-      })
+      .get<Otpremnica[]>(`${this.API_URL}/otpremnica/getOtpremnice`)
+      .pipe(
+        map((res) => {
+          res.forEach((otpremnica: Otpremnica) => {
+            otpremnica.datum = this.datepipe.transform(
+              otpremnica.datum,
+              'yyyy-MM-dd'
+            );
+          });
+          return res;
+        })
+      );
+  }
+
+  postOtpremnica(otpremnica: Partial<Otpremnica>) {
+    return this.http.post(
+      `${this.API_URL}/otpremnica/postOtpremnica`,
+      otpremnica
     );
   }
 }

@@ -38,6 +38,15 @@ export interface Ponude {
     tekuci_racun: number;
   }
 
+  export interface StavkaRacuna{
+    broj_racuna: number;
+    sifra_stavke: number;
+    kolicina: number;
+    iznos: number;
+    proizvod_id: number;
+    naziv: string
+  }
+
   export interface Otpremnica{
     broj_otpremnica: number;
     mesto_izdavanja: string;

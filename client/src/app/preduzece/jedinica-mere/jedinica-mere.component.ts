@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/toast.service';
+import Swal from 'sweetalert2';
 import { JedinicaMere } from '../models/proizvodi.model';
 import { PreduzeceService } from '../services/preduzece.service';
 
@@ -37,7 +38,7 @@ export class JedinicaMereComponent implements OnInit {
     .pipe(
       map((response:JedinicaMere[]) => {
         return response.map(arr =>{
-           return {naziv: arr.naziv_jm}
+           return {sifra_jm: arr.sifra_jm, naziv: arr.naziv_jm}
         })
       })
     )
@@ -63,6 +64,23 @@ export class JedinicaMereComponent implements OnInit {
       this.toastService.fireToast('success', 'Jedinica mere uspesno dodata!');
       this.getJedinica();
     });
+  }
+
+  onDelete(id: number){
+    console.log(id)
+    Swal.fire({
+      title: 'Da li zelite da obrisete jedinicu mere?',
+      showCancelButton: true,
+      confirmButtonText: 'Da',
+      icon: 'warning',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.preduzeceService.deleteJediniceMere(id).subscribe( () => {
+          Swal.fire('Jedinica mere obrisana!', '', 'success')
+          this.getJedinica();
+        })
+      }
+    })
   }
 
 }

@@ -1,20 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastService } from 'src/app/shared/toast.service';
+import Swal from 'sweetalert2';
+import { Mesto } from '../models/porudzbine.model';
 import { PorudzbineService } from '../services/porudzbine.service';
-
 
 @Component({
   selector: 'app-mesta',
   templateUrl: './mesta.component.html',
-  styleUrls: ['./mesta.component.scss']
+  styleUrls: ['./mesta.component.scss'],
 })
 export class MestaComponent implements OnInit {
-
   @ViewChild('formDirective') private formDirective: NgForm;
-  
+
   form: FormGroup;
-  error: string;
+  editMode = false;
+  updateMesto: Mesto;
 
   displayedColumns = {
     postanski_broj: 'Postanski broj',
@@ -41,21 +42,58 @@ export class MestaComponent implements OnInit {
     this.getMesta();
 
     this.form = new FormGroup({
-      postanski_broj: new FormControl(null, Validators.required),
-      naziv_mesta: new FormControl(null, Validators.required),
+      postanski_broj: new FormControl(null),
+      naziv_mesta: new FormControl(null),
     });
   }
 
   onAddNew() {
-    if (this.form.invalid) {
-      return;
+    if (!this.editMode) {
+      this.porudzbineService.postMesto(this.form.value).subscribe((res) => {
+        this.form.reset();
+        this.formDirective.resetForm();
+        this.toastService.fireToast('success', 'Mesto uspesno dodato!');
+        this.getMesta();
+      });
+    } else {
+      this.porudzbineService
+        .updateMesto(this.updateMesto.mesto_id, this.form.value)
+        .subscribe(() => {
+          this.form.reset();
+          this.formDirective.resetForm();
+          this.toastService.fireToast('success', 'Mesto uspesno azurirano!');
+          this.editMode = false;
+          this.getMesta();
+        });
     }
-    this.porudzbineService.postMesto(this.form.value).subscribe((res) => {
-      this.form.reset();
-      this.formDirective.resetForm();
-      this.toastService.fireToast('success', 'Mesto uspesno dodato!');
-      this.getMesta();
+  }
+
+  onDelete(id: number) {
+    console.log(id);
+    Swal.fire({
+      title: 'Da li zelite da obrisete mesto?',
+      showCancelButton: true,
+      confirmButtonText: 'Da',
+      icon: 'warning',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.porudzbineService.deleteMesto(id).subscribe(() => {
+          Swal.fire('Mesto obrisano!', '', 'success');
+          this.getMesta();
+        });
+      }
     });
   }
 
+  onEdit(id: number) {
+    this.editMode = true;
+    this.updateMesto = this.dataSource.find((mest) => {
+      return mest.mesto_id === id;
+    });
+    console.log(this.updateMesto);
+    this.form.patchValue({
+      postanski_broj: this.updateMesto.postanski_broj,
+      naziv_mesta: this.updateMesto.naziv_mesta,
+    });
+  }
 }

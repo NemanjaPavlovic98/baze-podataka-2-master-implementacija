@@ -6,15 +6,8 @@
   
     .content {
       table {
-        width: 400px;
-        max-width: 90%;
-  
-        .cdk-column-prezime {
-          width: 120px;
-        }
-        .cdk-column-actions{
-          width: 0px;
-        }
+        width: 800px;
+        max-width: 95%;
       }
   
       button {
@@ -24,9 +17,9 @@
   
     .form {
       mat-card {
-        width: 350px;
+        width: 300px;
         max-width: 90%;
-        margin: 40px auto 0px;
+        margin: 0px auto 0px;
         text-align: center;
         position: relative;
         padding-top: 30px;
@@ -34,6 +27,16 @@
   
       mat-form-field {
         width: 100%;
+      }
+  
+      .w-70{
+        width: 69%;
+        margin: 0px 1px;
+      }
+  
+      .w-30{
+        width: 29%;
+        margin: 0px 1px;
       }
   
       .button {

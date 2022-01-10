@@ -8,12 +8,17 @@
     table {
       width: 800px;
       max-width: 95%;
+
+      mat-icon{
+        cursor: pointer;
+      }
     }
 
     button {
       margin: 16px 8px 16px 0;
     }
   }
+  
 
   .form {
     mat-card {

@@ -39,4 +39,17 @@ async function postPonuda(req, res, next) {
   }
 }
 
-module.exports = { getPonude, postPonuda };
+async function deletePonuda(req, res, next) {
+  try {
+    const result = await db.query(
+      "DELETE FROM ponuda1 WHERE ponuda_id = $1 and datum = $2",
+      [+req.body.ponuda_id, req.body.datum]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+module.exports = { getPonude, postPonuda, deletePonuda };

@@ -31,12 +31,26 @@ export class PreduzeceService {
     return this.http.post(`${this.URL_JEDINICE}/postJediniceMere`, jedinica_mere);
   }
 
+  deleteJediniceMere(id: number){
+    return this.http.delete(`${this.URL_JEDINICE}/deleteJedinicaMere/${id}`);
+  }
+
   getZaposleni(){
     return this.http.get<Zaposleni[]>(`${this.URL_ZAPOSLENI}/getZaposleni`);
   }
 
   postZaposleni(zaposleni: Zaposleni){
     return this.http.post(`${this.URL_ZAPOSLENI}/postZaposleni`, zaposleni);
+  }
+
+  updateZaposleni(id: number, zaposleni){
+    console.log(id)
+    console.log(zaposleni)
+    return this.http.put(`${this.URL_ZAPOSLENI}/updateZaposleni/${id}`, zaposleni);
+  }
+
+  deleteZaposleni(id: number){
+    return this.http.delete(`${this.URL_ZAPOSLENI}/deleteZaposleni/${id}`);
   }
 
   getCeneZaProizvod(id: number){
@@ -55,5 +69,13 @@ export class PreduzeceService {
   postCenaZaProizvod(cenaProizvod: CeneProizvod){
     console.log(cenaProizvod)
     return this.http.post(`${this.URL_PROIZVODI}/postCenaZaProizvod`, cenaProizvod);
+  }
+
+  deleteProizvod(id: number){
+    return this.http.delete(`${this.URL_PROIZVODI}/deleteProizvod/${id}`);
+  }
+
+  deleteCenaZaProizvod(id: number, datum: string){
+    return this.http.post(`${this.URL_PROIZVODI}/deleteCenaZaProizvod`, {proizvod_id: id, datum: datum});
   }
 }

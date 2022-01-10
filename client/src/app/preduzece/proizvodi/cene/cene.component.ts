@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from 'src/app/shared/toast.service';
+import Swal from 'sweetalert2';
 import { PreduzeceService } from '../../services/preduzece.service';
 
 @Component({
@@ -64,6 +65,23 @@ export class CeneComponent implements OnInit {
       this.formDirective.resetForm();
       this.toastService.fireToast('success', 'Cena uspesno dodata!');
       this.getCeneZaProizvod();
+    });
+  }
+
+  onDelete(datum: string) {
+    console.log(datum)
+    Swal.fire({
+      title: 'Da li zelite da cenu za proizvod?',
+      showCancelButton: true,
+      confirmButtonText: 'Da',
+      icon: 'warning',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.preduzeceService.deleteCenaZaProizvod(this.proizvodId, datum).subscribe(() => {
+          Swal.fire('Proizvod obrisan!', '', 'success');
+          this.getCeneZaProizvod();
+        });
+      }
     });
   }
 

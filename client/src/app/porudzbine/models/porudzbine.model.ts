@@ -1,4 +1,5 @@
 export interface Mesto {
+  mesto_id?: number;
   postanski_broj: number;
   naziv_mesta: string;
 }
@@ -26,4 +27,10 @@ export interface KupacPost{
   mesto: number;
   broj: number;
   naziv_ulica: string;
+}
+
+export interface Ulica{
+  mesto_id: number,
+  ulica_id: number,
+  naziv_ulice: string
 }

@@ -1,1 +1,11 @@
-<p>dashboard works!</p>
+<div class="container">
+  <div class="content">
+    <h1>Dobrodosli u <strong>SMUK</strong> admin aplikaciju</h1>
+    <div class="options">
+      <div [routerLink]="['/preduzece/proizvodi']" class="card proizvodi"><div class="layer"></div><p class="text">PROIZVODI</p></div>
+      <div [routerLink]="['dokumenta/knjiga-tocenja']" class="card knjiga-tocenja"><div class="layer"></div><p class="text">KNJIGA<br>TOCENJA</p></div>
+      <div [routerLink]="['/porudzbine/klijenti']" class="card klijenti"><div class="layer"></div><p class="text">KLIJENTI</p></div>
+      <div [routerLink]="['/dokumenta/racun']" class="card racuni"><div class="layer"></div><p class="text">RACUNI</p></div>
+    </div>
+  </div>
+</div>

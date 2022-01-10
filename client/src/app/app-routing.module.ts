@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DokumentaComponent } from './dokumenta/dokumenta.component';
 import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/forma.component';
 import { KnjigaTocejnaComponent } from './dokumenta/knjiga-tocejna/knjiga-tocejna.component';
+import { OtpremnicaComponent } from './dokumenta/otpremnica/otpremnica.component';
 import { PonudaFormaComponent } from './dokumenta/ponuda/ponuda-forma/ponuda-forma.component';
 import { PonudaComponent } from './dokumenta/ponuda/ponuda.component';
 import { FormaRacunComponent } from './dokumenta/racun/forma-racun/forma-racun.component';
@@ -28,6 +29,7 @@ const routes: Routes = [
         {path: 'novi', component: FormaRacunComponent},
         {path: 'stavke-racuna/:broj_racuna', component: StavkeRacunaComponent},
       ] },
+      { path: 'otpremnica', component: OtpremnicaComponent },
       {
         path: 'ponuda',
         children: [

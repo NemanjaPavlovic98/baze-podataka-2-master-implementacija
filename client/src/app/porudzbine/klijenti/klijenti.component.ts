@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ToastService } from 'src/app/shared/toast.service';
+import Swal from 'sweetalert2';
+import { Kupac } from '../models/porudzbine.model';
 import { PorudzbineService } from '../services/porudzbine.service';
 
 @Component({
@@ -12,7 +14,8 @@ export class KlijentiComponent implements OnInit {
   @ViewChild('formDirective') private formDirective: NgForm;
 
   form: FormGroup;
-  error: string;
+  editMode = false;
+  updateKlijent: Partial<Kupac>;
 
   displayedColumns = {
     naziv: 'Kupac',
@@ -27,6 +30,7 @@ export class KlijentiComponent implements OnInit {
   displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
   dataSource = [];
   mesta = [];
+  ulice = [];
 
   constructor(
     private porudzbineService: PorudzbineService,
@@ -42,12 +46,23 @@ export class KlijentiComponent implements OnInit {
       this.dataSource = res;
     });
   }
-  ngOnInit(): void {
-    this.getKlijent();
+
+  getMesta() {
     this.porudzbineService.getMesta().subscribe((res) => {
       this.mesta = res;
     });
+  }
 
+  getUlice() {
+    this.porudzbineService.getUlice().subscribe((res) => {
+      this.ulice = res;
+    });
+  }
+
+  ngOnInit(): void {
+    this.getKlijent();
+    this, this.getMesta();
+    this.getUlice();
     this.form = new FormGroup({
       naziv: new FormControl(null),
       pib: new FormControl(null),
@@ -60,16 +75,67 @@ export class KlijentiComponent implements OnInit {
   }
 
   onAddNew() {
-    if (this.form.invalid) {
-      return;
+    if (!this.editMode) {
+      this.porudzbineService.postKupac(this.form.value).subscribe((res) => {
+        this.form.reset();
+        this.formDirective.resetForm();
+        this.toastService.fireToast('success', 'Klijent uspesno dodat!');
+        this.getKlijent();
+      });
+    } else {
+      this.porudzbineService
+        .updateKupac(this.updateKlijent.kupac_id, {
+          ...this.form.value,
+          adresa_id: this.updateKlijent.adresa_id,
+          ulica_id: this.updateKlijent.ulica_id,
+        })
+        .subscribe(() => {
+          this.form.reset();
+          this.formDirective.resetForm();
+          this.toastService.fireToast('success', 'Kupac uspesno azuriran!');
+          this.editMode = false;
+          this.getKlijent();
+          this.getUlice();
+          this.getMesta();
+        });
     }
+  }
 
-    console.log(this.form.value);
-    this.porudzbineService.postKupac(this.form.value).subscribe((res) => {
-      this.form.reset();
-      this.formDirective.resetForm();
-      this.toastService.fireToast('success', 'Klijent uspesno dodat!');
-      this.getKlijent();
+  onDelete(id: number) {
+    console.log(id);
+    Swal.fire({
+      title: 'Da li zelite da obrisete mesto?',
+      showCancelButton: true,
+      confirmButtonText: 'Da',
+      icon: 'warning',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.porudzbineService.deleteKupci(id).subscribe(() => {
+          Swal.fire('Klijent obrisan!', '', 'success');
+          this.getKlijent();
+        });
+      }
+    });
+  }
+
+  onEdit(id: number) {
+    this.editMode = true;
+    this.updateKlijent = this.dataSource.find((mest) => {
+      return mest.kupac_id === id;
+    });
+    const ulicaFind = this.ulice.find((ulc: Partial<Kupac>) => {
+      return ulc.ulica_id === this.updateKlijent.ulica_id;
+    });
+
+    console.log(this.updateKlijent);
+    this.form.patchValue({
+      naziv: this.updateKlijent.naziv,
+      pib: this.updateKlijent.pib,
+      mb: this.updateKlijent.mb,
+      telefon: this.updateKlijent.telefon,
+      mesto: this.updateKlijent.mesto_id,
+      ulica: ulicaFind.naziv_ulice,
+      broj: this.updateKlijent.broj,
     });
   }
 }

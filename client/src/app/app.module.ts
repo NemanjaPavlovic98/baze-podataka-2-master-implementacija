@@ -27,6 +27,7 @@ import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/fo
 import { KlijentiComponent } from './porudzbine/klijenti/klijenti.component';
 import { StavkeRacunaComponent } from './dokumenta/racun/stavke-racuna/stavke-racuna.component';
 import { FormaRacunComponent } from './dokumenta/racun/forma-racun/forma-racun.component';
+import { OtpremnicaComponent } from './dokumenta/otpremnica/otpremnica.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { FormaRacunComponent } from './dokumenta/racun/forma-racun/forma-racun.c
     KlijentiComponent,
     StavkeRacunaComponent,
     FormaRacunComponent,
+    OtpremnicaComponent,
   ],
   imports: [
     BrowserModule,

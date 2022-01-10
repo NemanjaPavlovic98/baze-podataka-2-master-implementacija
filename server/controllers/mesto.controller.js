@@ -56,4 +56,30 @@ async function getAllSum(req, res, nest) {
   }
 }
 
-module.exports = { getMesta, postMesto, getUlica, getAdresa, getAllSum };
+async function deleteMesto(req, res, next) {
+  try {
+    const result = await db.query(
+      "DELETE FROM mesto WHERE mesto_id = $1",
+      [+req.params.id]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+async function updateMesto(req, res, next) {
+  try {
+    const result = await db.query(
+      `UPDATE mesto SET postanski_broj = $1, naziv_mesta = $2 WHERE mesto_id = $3`,
+      [req.body.postanski_broj, req.body.naziv_mesta, +req.params.id]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+module.exports = { getMesta, postMesto, getUlica, getAdresa, getAllSum, deleteMesto, updateMesto };

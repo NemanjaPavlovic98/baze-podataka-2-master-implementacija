@@ -21,4 +21,17 @@ async function postJedinicaMere(req, res, next) {
   }
 }
 
-module.exports = { getJedinicaMere, postJedinicaMere };
+async function deleteJedinicaMere(req, res, next) {
+  try {
+    const result = await db.query(
+      "DELETE FROM jedinica_mere WHERE sifra_jm = $1",
+      [+req.params.id]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+module.exports = { getJedinicaMere, postJedinicaMere, deleteJedinicaMere };

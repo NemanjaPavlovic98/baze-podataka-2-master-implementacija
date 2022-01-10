@@ -34,8 +34,8 @@ async function postRacun(req, res, next) {
       ];
       const racun = await client.query(insertRacunText, insertRacunValues);
 
-      if(req.body.stavke_racuna.length <= 0){
-        throw {status: 500, message: 'Niste dodali stavke racuna'}
+      if (req.body.stavke_racuna.length <= 0) {
+        throw { status: 500, message: "Niste dodali stavke racuna" };
       }
 
       req.body.stavke_racuna.forEach(async (stavkaRacuna) => {
@@ -64,4 +64,61 @@ async function postRacun(req, res, next) {
   });
 }
 
-module.exports = { getRacuni, postRacun };
+async function getStavkeZaRacun(req, res, next) {
+  try {
+    const result = await db.query(
+      `select sr.*, p.naziv
+      from stavka_racuna sr
+      join proizvod p on sr.proizvod_id = p.proizvod_id
+      where sr.broj_racuna = $1
+      `,
+      [req.params.id]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(404).json({ succes: false, message: error });
+  }
+}
+
+async function deleteRacun(req, res, next) {
+  const pool = db.pool;
+  (async () => {
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+
+      const deleteStavkeRacunaText = `DELETE FROM stavka_racuna WHERE broj_racuna=$1`;
+      await client.query(deleteStavkeRacunaText, [+req.params.id]);
+
+      const deleteRacunText = `DELETE FROM racun WHERE broj_racuna=$1`;
+      await client.query(deleteRacunText, [+req.params.id]);
+
+      await client.query("COMMIT");
+      res.status(200).json({ succes: true });
+    } catch (e) {
+      await client.query("ROLLBACK");
+      throw e;
+    } finally {
+      client.release();
+    }
+  })().catch((e) => {
+    console.error(e.stack);
+    res.status(e.status || 500);
+    res.json({ message: e.message });
+  });
+}
+
+async function deleteStavkaRacuna(req, res, next) {
+  try {
+    const result = await db.query(
+      "DELETE FROM stavka_racuna WHERE broj_racuna = $1 and sifra_stavke = $2",
+      [+req.body.broj_racuna, +req.body.sifra_stavke]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+module.exports = { getRacuni, postRacun, getStavkeZaRacun, deleteRacun, deleteStavkaRacuna };

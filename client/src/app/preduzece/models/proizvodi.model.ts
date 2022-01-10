@@ -17,9 +17,11 @@ export interface JedinicaMere{
 }
 
 export interface Zaposleni{
+  zaposleni_id?: number;
   ime: string;
   prezime: string;
 }
+
 
 export interface CeneProizvod{
   proizvod_id: number,

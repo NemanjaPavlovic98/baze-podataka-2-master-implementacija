@@ -41,7 +41,7 @@
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
           <mat-icon>edit</mat-icon>
-          <mat-icon>delete</mat-icon>
+          <mat-icon (click)="onDelete(element.ponuda_id, element.datum)">delete</mat-icon>
         </td>
       </ng-container>
 

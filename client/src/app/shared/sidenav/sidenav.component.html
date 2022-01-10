@@ -1,11 +1,11 @@
 <div class="sidebar">
-  <div class="logo">
+  <div [routerLink]="['/']" class="logo">
     <img src="/assets/images/smuklogo.svg" alt="" />
   </div>
   <div class="divider"></div>
   <div class="tabs">
     <!-- pocetna -->
-    <div class="tab">
+    <div [routerLink]="['/']" class="tab">
       <mat-icon class="icon">home</mat-icon>
       <span>Početna</span>
     </div>
@@ -14,7 +14,7 @@
       <span mat-button>Dokumenta</span>
       <mat-menu #dokumenta="matMenu">
         <button [routerLink]="['/dokumenta/racun']" mat-menu-item>Racun</button>
-        <button mat-menu-item>Otpremnica</button>
+        <button mat-menu-item [routerLink]="['/dokumenta/otpremnica']">Otpremnica</button>
         <button [routerLink]="['/dokumenta/ponuda']" mat-menu-item>
           Ponuda
         </button>
