@@ -1,6 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Proizvod } from 'src/app/preduzece/models/proizvodi.model';
+import { PreduzeceService } from 'src/app/preduzece/services/preduzece.service';
 import { ToastService } from 'src/app/shared/toast.service';
 import Swal from 'sweetalert2';
 import { PonudaService } from '../../services/dokumenta.service';
@@ -8,11 +11,14 @@ import { PonudaService } from '../../services/dokumenta.service';
 @Component({
   selector: 'app-stavke-racuna',
   templateUrl: './stavke-racuna.component.html',
-  styleUrls: ['./stavke-racuna.component.scss']
+  styleUrls: ['./stavke-racuna.component.scss'],
 })
 export class StavkeRacunaComponent implements OnInit {
+  @ViewChild('formDirective') private formDirective: NgForm;
 
   racunId: number;
+  proizvodi: Proizvod[];
+  sifraStavkeEdit: number;
 
   displayedColumns = {
     broj_racuna: 'Redni broj racuna',
@@ -25,8 +31,13 @@ export class StavkeRacunaComponent implements OnInit {
   displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
   dataSource = [];
 
+  form: FormGroup;
+  editMode = false;
+  // updateKlijent: Partial<Kupac>;
+
   constructor(
     private dokumentaService: PonudaService,
+    private preduzeceService: PreduzeceService,
     private toastService: ToastService,
     private route: ActivatedRoute,
     private datepipe: DatePipe
@@ -41,9 +52,42 @@ export class StavkeRacunaComponent implements OnInit {
       this.dataSource = res;
     });
   }
+
   ngOnInit(): void {
     this.racunId = +this.route.snapshot.paramMap.get('broj_racuna');
     this.getStavkeRacuna();
+
+    this.preduzeceService.getProizvodi().subscribe((res) => {
+      this.proizvodi = res;
+    });
+
+    this.form = new FormGroup({
+      kolicina: new FormControl(null),
+      iznos: new FormControl(null),
+      proizvod: new FormControl(null),
+    });
+  }
+
+  onAddNew() {
+    for (const key in this.form.value) {
+      if (this.form.value[key] === '') {
+        this.form.value[key] = null;
+      }
+    }
+
+    this.dokumentaService.updateStavkaRacuna(
+      {
+        ...this.form.value,
+        sifra_stavke: this.sifraStavkeEdit,
+        broj_racuna: this.racunId
+      }
+    ).subscribe(() => {
+      this.form.reset();
+      this.formDirective.resetForm();
+      this.toastService.fireToast('success', 'Stavka uspesno azurirana!');
+      this.editMode = false;
+      this.getStavkeRacuna();
+    })
   }
 
   onDelete(sifra_stavke: number) {
@@ -54,12 +98,27 @@ export class StavkeRacunaComponent implements OnInit {
       icon: 'warning',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.dokumentaService.deleteStavkaRacuna(this.racunId, sifra_stavke).subscribe(() => {
-          Swal.fire('Stavka je obrisana!', '', 'success');
-          this.getStavkeRacuna();
-        });
+        this.dokumentaService
+          .deleteStavkaRacuna(this.racunId, sifra_stavke)
+          .subscribe(() => {
+            Swal.fire('Stavka je obrisana!', '', 'success');
+            this.getStavkeRacuna();
+          });
       }
     });
   }
 
+  onEdit(id: number) {
+    this.editMode = true;
+    this.sifraStavkeEdit = id;
+    const updateStavka = this.dataSource.find((stavka) => {
+      return stavka.sifra_stavke === id;
+    });
+
+    this.form.patchValue({
+      kolicina: updateStavka.kolicina,
+      iznos: updateStavka.iznos,
+      proizvod: updateStavka.proizvod_id
+    });
+  }
 }

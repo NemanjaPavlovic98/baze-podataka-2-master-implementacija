@@ -34,8 +34,16 @@ export class PonudaService {
       );
   }
 
+  getPonuda(id: number) {
+    return this.http.get(`${this.API_URL}/ponuda/getPonuda/${id}`);
+  }
+
   postPonuda(ponuda: Partial<Ponude>) {
     return this.http.post(`${this.API_URL}/ponuda/postPonuda`, ponuda);
+  }
+
+  updatePonuda(id: number, ponuda: Partial<Ponude>) {
+    return this.http.put(`${this.API_URL}/ponuda/updatePonuda/${id}`, ponuda);
   }
 
   deletePonuda(id: number, datum: string) {
@@ -119,13 +127,33 @@ export class PonudaService {
     );
   }
 
+  getRacun(id: number) {
+    return this.http.get(`${this.API_URL}/racun/getRacun/${id}`).pipe(
+      map((res) => {
+        res[0].datum = this.datepipe.transform(res[0].datum, 'yyyy-MM-dd');
+        return res[0];
+      })
+    );
+  }
+
   postRacun(racun: Partial<Racun>) {
     return this.http.post(`${this.API_URL}/racun/postRacun`, racun);
+  }
+
+  updateRacun(id: number, racun: Partial<Racun>) {
+    return this.http.put(`${this.API_URL}/racun/updateRacun/${id}`, racun);
   }
 
   getStavkeRacuna(id: number) {
     return this.http.get<StavkaRacuna[]>(
       `${this.API_URL}/racun/getStavkeRacuna/${id}`
+    );
+  }
+
+  updateStavkaRacuna(stavka_racuna: StavkaRacuna) {
+    return this.http.put(
+      `${this.API_URL}/racun/updateStavkaRacuna/${stavka_racuna.sifra_stavke}`,
+      stavka_racuna
     );
   }
 
@@ -160,6 +188,18 @@ export class PonudaService {
     return this.http.post(
       `${this.API_URL}/otpremnica/postOtpremnica`,
       otpremnica
+    );
+  }
+
+  updateOtpremnica(id: number, otpremnica: Partial<Otpremnica>) {
+    return this.http.put(
+      `${this.API_URL}/otpremnica/updateOtpremnica/${id}`,
+      otpremnica
+    );
+  }
+  deleteOtpremnica(id: number) {
+    return this.http.delete(
+      `${this.API_URL}/otpremnica/deleteOtpremnica/${id}`
     );
   }
 }

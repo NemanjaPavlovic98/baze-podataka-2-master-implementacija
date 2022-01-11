@@ -31,6 +31,7 @@ const routes: Routes = [
         children: [
           { path: '', component: RacunComponent },
           { path: 'novi', component: FormaRacunComponent },
+          { path: 'azurira-racun/:id', component: FormaRacunComponent },
           {
             path: 'stavke-racuna/:broj_racuna',
             component: StavkeRacunaComponent,
@@ -43,6 +44,7 @@ const routes: Routes = [
         children: [
           { path: '', component: PonudaComponent },
           { path: 'nova-ponuda', component: PonudaFormaComponent },
+          { path: 'edit-ponuda/:id', component: PonudaFormaComponent },
         ],
       },
       {

@@ -16,6 +16,7 @@ export class RacunComponent implements OnInit {
     broj_otpremnice: 'Broj otpremnice',
     oznaka: 'Oznaka otpremnice',
     tekuci_racun: 'Za racun',
+    ukupan_iznos: 'Ukupan iznos',
   };
   displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
   dataSource = [];

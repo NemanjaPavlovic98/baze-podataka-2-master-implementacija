@@ -1,7 +1,7 @@
 const db = require("../db/index");
 
 async function getPonude(req, res, next) {
-  const parameter = req.query.year ? `_${req.query.year}` : '1';
+  const parameter = req.query.year ? `_${req.query.year}` : "1";
   try {
     const result = await db.query(
       `
@@ -17,20 +17,50 @@ async function getPonude(req, res, next) {
     res.status(200).json(result.rows);
   } catch (error) {
     res.status(error.status || 500);
-    if(error.message.includes('relation') &&  error.message.includes('does not exist')){
-      res.json({ message: 'Particija tabele za unetu godinu ne postoji' });
-    }else{
+    if (
+      error.message.includes("relation") &&
+      error.message.includes("does not exist")
+    ) {
+      res.json({ message: "Particija tabele za unetu godinu ne postoji" });
+    } else {
       res.json({ message: error.message });
     }
+  }
+}
+
+async function getPonuda(req, res, next) {
+  try {
+    const result = await db.query(
+      `SELECT * FROM ponuda1 WHERE ponuda_id = $1`,
+      [+req.params.id]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
   }
 }
 
 async function postPonuda(req, res, next) {
   try {
     const result = await db.query(
-        `INSERT INTO ponuda1(datum, kupac_id, opis)
+      `INSERT INTO ponuda1(datum, kupac_id, opis)
         VALUES ($1, $2, $3);`,
-        [req.body.datum, +req.body.klijent, req.body.opis]);
+      [req.body.datum, +req.body.klijent, req.body.opis]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+async function updatePonuda(req, res, next) {
+  try {
+    const result = await db.query(
+      `UPDATE ponuda1 SET kupac_id=$1, opis=$2, datum=$3 WHERE ponuda_id=$4`,
+      [req.body.klijent, req.body.opis, req.body.datum, +req.params.id]
+    );
     res.status(200).json(result.rows);
   } catch (error) {
     res.status(error.status || 500);
@@ -51,4 +81,10 @@ async function deletePonuda(req, res, next) {
   }
 }
 
-module.exports = { getPonude, postPonuda, deletePonuda };
+module.exports = {
+  getPonude,
+  postPonuda,
+  deletePonuda,
+  getPonuda,
+  updatePonuda,
+};

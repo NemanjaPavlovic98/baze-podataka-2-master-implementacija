@@ -2,6 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ToastService } from 'src/app/shared/toast.service';
+import Swal from 'sweetalert2';
+import { Otpremnica } from '../models/ponuda.model';
 import { PonudaService } from '../services/dokumenta.service';
 
 @Component({
@@ -14,6 +16,8 @@ export class OtpremnicaComponent implements OnInit {
 
   form: FormGroup;
   knjigeTocenja = [];
+  editMode = false;
+  updateOtpremnica: Partial<Otpremnica>
 
   displayedColumns = {
     broj_otpremnice: 'Broj otpremnice',
@@ -57,18 +61,66 @@ export class OtpremnicaComponent implements OnInit {
   }
 
   onAddNew() {
-    if (this.form.invalid) {
-      return;
+    if (!this.editMode) {
+      this.form.value.datum = this.datepipe.transform(
+        this.form.value.datum,
+        'yyyy-MM-dd'
+      );
+      this.ponudaService.postOtpremnica(this.form.value).subscribe((res) => {
+        this.form.reset();
+        this.formDirective.resetForm();
+        this.toastService.fireToast('success', 'Otpremnica uspesno dodata!');
+        this.getOtpremnice();
+      });
+    } else {
+      for (const key in this.form.value) {
+        if (this.form.value[key] === '') {
+          this.form.value[key] = null;
+        }
+      }
+      
+      this.ponudaService
+        .updateOtpremnica(this.updateOtpremnica.broj_otpremnice, this.form.value)
+        .subscribe(() => {
+          this.form.reset();
+          this.formDirective.resetForm();
+          this.toastService.fireToast('success', 'Otpremnica je uspesno azurirana!');
+          this.editMode = false;
+          this.getOtpremnice();
+        });
     }
-    this.form.value.datum = this.datepipe.transform(
-      this.form.value.datum,
-      'yyyy-MM-dd'
-    );
-    this.ponudaService.postOtpremnica(this.form.value).subscribe((res) => {
-      this.form.reset();
-      this.formDirective.resetForm();
-      this.toastService.fireToast('success', 'Otpremnica uspesno dodata!');
-      this.getOtpremnice();
+    
+  }
+
+  onDelete(id: number) {
+    Swal.fire({
+      title: 'Da li zelite da obrisete otpremnicu?',
+      showCancelButton: true,
+      confirmButtonText: 'Da',
+      icon: 'warning',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ponudaService.deleteOtpremnica(id).subscribe(() => {
+          Swal.fire('Otpremnica je obrisana!', '', 'success');
+          this.getOtpremnice();
+        });
+      }
+    });
+  }
+
+  onEdit(id: number) {
+    this.editMode = true;
+    this.updateOtpremnica = this.dataSource.find((otpr) => {
+      return otpr.broj_otpremnice === id;
+    });
+
+    console.log(this.updateOtpremnica.broj_otpremnice)
+
+    this.form.patchValue({
+      mesto_izdavanja: this.updateOtpremnica.mesto_izdavanja,
+      datum: this.updateOtpremnica.datum,
+      tekuci_racun: this.updateOtpremnica.tekuci_racun,
+      oznaka: this.updateOtpremnica.oznaka,
     });
   }
 }

@@ -16,8 +16,8 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
-            <mat-icon>edit</mat-icon>
-            <mat-icon>delete</mat-icon>
+            <mat-icon (click)="onEdit(element.broj_otpremnice)">edit</mat-icon>
+            <mat-icon (click)="onDelete(element.broj_otpremnice)">delete</mat-icon>
           </td>
         </ng-container>
   
@@ -32,7 +32,7 @@
       </table>
     </div>
     <div class="form">
-      <h1>Dodaj novu otpremnicu</h1>
+      <h1>{{editMode ? 'Azuriraj':'Dodaj novu'}} otpremnicu</h1>
       <mat-card>
         <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
         
@@ -75,7 +75,7 @@
             type="submit"
             class="button"
           >
-            Dodaj novu otpremnicu
+          {{editMode ? 'Azuriraj':'Dodaj novu'}}  otpremnicu
           </button>
         </form>
       </mat-card>

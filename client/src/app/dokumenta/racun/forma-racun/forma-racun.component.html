@@ -1,6 +1,5 @@
 <mat-card>
-  <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
-  <h1 class="mat-body-1">Dodaj novi racun</h1>
+  <h1 class="mat-body-1"> {{edit_mode ? 'Azuriraj' : 'Dodaj novi'}}  racun {{edit_mode ? 'sa ID-jem - '+racun_id : ''}}</h1>
   <form [formGroup]="form" (submit)="onSignup()">
     <mat-form-field class="w-50" appearance="outline">
       <mat-label>Mesto izdavanja</mat-label>
@@ -72,12 +71,7 @@
         </mat-form-field>
         <mat-form-field class="w-50" appearance="outline">
           <mat-label>Iznos</mat-label>
-          <input
-            matInput
-            name="iznos"
-            type="number"
-            formControlName="iznos"
-          />
+          <input matInput name="iznos" type="number" formControlName="iznos" />
         </mat-form-field>
         <button
           style="margin: 20px 0px 5px"
@@ -102,14 +96,16 @@
             </th>
             <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
           </ng-container>
-    
+
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element">
-              <mat-icon (click)="onDelete(element.proizvod_id)">delete</mat-icon>
+              <mat-icon (click)="onDelete(element.proizvod_id)"
+                >delete</mat-icon
+              >
             </td>
           </ng-container>
-    
+
           <tr
             mat-header-row
             *matHeaderRowDef="objectKeys(displayedColumnsFull)"
@@ -122,67 +118,8 @@
       </div>
     </div>
 
-    <!-- <div
-      class="stavke-racuna"
-      style="background-color: antiquewhite; padding: 20px"
-    >
-      <h2 style="text-align: left">Stavke racuna</h2>
-      <div
-        style="border-bottom: 1px solid black; margin-bottom: 10px"
-        formArrayName="stavke_racuna"
-        *ngFor="
-          let item of form.controls['stavke_racuna']['controls'];
-          let i = index
-        "
-      >
-        <div [formGroupName]="i">
-          <mat-form-field appearance="outline">
-            <mat-label>Kolicina</mat-label>
-            <input
-              matInput
-              name="kolicina"
-              type="text"
-              formControlName="kolicina"
-            />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Iznos</mat-label>
-            <input matInput name="iznos" type="text" formControlName="iznos" />
-          </mat-form-field> -->
-    <!-- <button
-          style="margin: 0px; margin-bottom: 5px;"
-            [disabled]="form.invalid"
-            mat-raised-button
-            color="warn"
-            class="button"
-            type="button"
-            (click)="removeNext(i)"
-          >
-            Ukloni stavku racuna
-          </button> -->
-    <!-- </div>
-      </div> -->
-    <!-- <button
-      style="margin: 20px 0px 5px;"
-        [disabled]="form.invalid"
-        mat-raised-button
-        color="primary"
-        class="button"
-        type="button"
-        (click)="addNext()"
-      >
-        Dodaj stavku racuna
-      </button> -->
-    <!-- </div> -->
-
-    <!-- button -->
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      class="button"
-    >
-      Dodaj racun
+    <button mat-raised-button color="primary" type="submit" class="button">
+      {{edit_mode ? 'Azuriraj' : 'Dodaj novi'}} racun
     </button>
   </form>
 </mat-card>

@@ -1,6 +1,6 @@
 <mat-card>
     <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
-    <h1 class="mat-body-1">Dodaj novi rekord</h1>
+    <h1 class="mat-body-1">{{edit_mode ? 'Azuriraj' : 'Dodaj novi'}} rekord otpremnice</h1>
     <form [formGroup]="form" (submit)="onSignup()">
         <mat-form-field appearance="outline">
           <mat-label>Datum</mat-label>
@@ -31,7 +31,7 @@
         type="submit"
         class="button"
       >
-        Dodaj red u knjigu
+      {{edit_mode ? 'Azuriraj' : 'Dodaj novi'}} rekord otpremnice
       </button>
     </form>
   </mat-card>

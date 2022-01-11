@@ -48,7 +48,7 @@ export interface Ponude {
   }
 
   export interface Otpremnica{
-    broj_otpremnica: number;
+    broj_otpremnice: number;
     mesto_izdavanja: string;
     datum: string;
     tekuci_racun: number;
