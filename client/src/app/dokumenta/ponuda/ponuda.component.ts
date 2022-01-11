@@ -34,13 +34,10 @@ export class PonudaComponent implements OnInit {
   onSearch(){
     this.ponudaService.getPonude(this.form.value.pretraga).subscribe(res => {
       this.dataSource = res
-      console.log(this.dataSource)
     });
   }
 
   onDelete(id: number, datum: string) {
-    console.log(id)
-    console.log(datum)
     Swal.fire({
       title: 'Da li zelite da obrisete ponudu?',
       showCancelButton: true,

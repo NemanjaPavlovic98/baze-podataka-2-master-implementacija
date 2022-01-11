@@ -69,7 +69,6 @@ export class CeneComponent implements OnInit {
   }
 
   onDelete(datum: string) {
-    console.log(datum)
     Swal.fire({
       title: 'Da li zelite da cenu za proizvod?',
       showCancelButton: true,

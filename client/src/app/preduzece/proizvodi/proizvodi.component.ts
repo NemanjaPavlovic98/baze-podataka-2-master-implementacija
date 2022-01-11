@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import { FullProizvod, Proizvod } from '../models/proizvodi.model';
 import { PreduzeceService } from '../services/preduzece.service';
 
 @Component({
@@ -10,7 +11,9 @@ import { PreduzeceService } from '../services/preduzece.service';
 export class ProizvodiComponent implements OnInit {
   displayedColumns = {
     naziv: 'Naziv',
-    p_info: 'Opis-Jacina-Br analize',
+    opis: 'Opis',
+    jacina: 'Jacina',
+    br_analize: 'Br lab analize',
     naziv_jm: 'Jedinica mere',
     aktuelna_cena: 'Aktuelna cena',
   };
@@ -24,8 +27,19 @@ export class ProizvodiComponent implements OnInit {
   }
 
   getProizvodi() {
-    this.preduzeceService.getProizvodi().subscribe((res) => {
-      this.dataSource = res;
+    this.preduzeceService.getProizvodi().subscribe((res: Proizvod[]) => {
+      const formatedData = res.map((el: Proizvod) => {
+        let novi_p_info = el.p_info?.split(/[(",)]/).filter((elm) => {
+          return elm != '';
+        });
+        return {
+          ...el,
+          opis: typeof novi_p_info !== 'undefined' ? novi_p_info[0] : null,
+          jacina: typeof novi_p_info !== 'undefined' ? novi_p_info[1] : null,
+          br_analize: typeof novi_p_info !== 'undefined' ? novi_p_info[2] : null,
+        };
+      });
+      this.dataSource = formatedData;
     });
   }
 
@@ -34,7 +48,6 @@ export class ProizvodiComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    console.log(id);
     Swal.fire({
       title: 'Da li zelite da obrisete proizvod?',
       showCancelButton: true,

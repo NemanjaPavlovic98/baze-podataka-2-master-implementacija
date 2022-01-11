@@ -29,8 +29,6 @@ async function postKupac(req, res, next) {
         req.body.ulica,
       ]);
 
-      console.log(ulicaId.rows[0].ulica_id);
-
       const insertAdresaText = `insert into adresa (ulica_id, mesto_id, broj) values ($1, $2, $3) returning adresa_id`;
       const insertAdresaValues = [
         ulicaId.rows[0].ulica_id,
@@ -82,8 +80,6 @@ async function updateKupac(req, res, next) {
   const pool = db.pool;
   (async () => {
     const client = await pool.connect();
-    console.log(req.body);
-    console.log(req.params);
     try {
       await client.query("BEGIN");
 

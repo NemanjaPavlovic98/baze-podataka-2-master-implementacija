@@ -24,8 +24,6 @@ async function postZaposleni(req, res, next) {
 }
 
 async function updateZaposleni(req, res, next) {
-  console.log(req.body)
-  console.log(req.params)
   try {
     const result = await db.query(
       `UPDATE zaposleni SET ime = $1, prezime = $2 WHERE zaposleni_id = $3`,

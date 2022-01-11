@@ -17,7 +17,7 @@
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let element">
-                <mat-icon>edit</mat-icon>
+                <mat-icon [routerLink]="['/dokumenta/knjiga-tocenja/update-knjiga', element.oznaka]">edit</mat-icon>
                 <mat-icon (click)="onDelete(element.oznaka)">delete</mat-icon>
               </td>
             </ng-container>
@@ -39,7 +39,7 @@
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let element">
-                <mat-icon>edit</mat-icon>
+                <mat-icon [routerLink]="['/dokumenta/knjiga-tocenja/update-knjiga', element.oznaka]">edit</mat-icon>
                 <mat-icon (click)="onDelete(element.oznaka)">delete</mat-icon>
               </td>
             </ng-container>

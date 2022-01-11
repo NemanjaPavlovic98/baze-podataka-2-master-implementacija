@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DokumentaComponent } from './dokumenta/dokumenta.component';
 import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/forma.component';
 import { KnjigaTocejnaComponent } from './dokumenta/knjiga-tocejna/knjiga-tocejna.component';
+import { UpdateKnjigaComponent } from './dokumenta/knjiga-tocejna/update-knjiga/update-knjiga.component';
 import { OtpremnicaComponent } from './dokumenta/otpremnica/otpremnica.component';
 import { PonudaFormaComponent } from './dokumenta/ponuda/ponuda-forma/ponuda-forma.component';
 import { PonudaComponent } from './dokumenta/ponuda/ponuda.component';
@@ -14,6 +15,7 @@ import { KlijentiComponent } from './porudzbine/klijenti/klijenti.component';
 import { MestaComponent } from './porudzbine/mesta/mesta.component';
 import { JedinicaMereComponent } from './preduzece/jedinica-mere/jedinica-mere.component';
 import { CeneComponent } from './preduzece/proizvodi/cene/cene.component';
+import { EditProizvodComponent } from './preduzece/proizvodi/edit-proizvod/edit-proizvod.component';
 import { FormaProizvodaComponent } from './preduzece/proizvodi/forma/forma.component';
 import { ProizvodiComponent } from './preduzece/proizvodi/proizvodi.component';
 import { ZaposleniComponent } from './preduzece/zaposleni/zaposleni.component';
@@ -24,11 +26,17 @@ const routes: Routes = [
     path: 'dokumenta',
     children: [
       { path: '', component: DokumentaComponent },
-      { path: 'racun', children: [
-        {path: '', component: RacunComponent},
-        {path: 'novi', component: FormaRacunComponent},
-        {path: 'stavke-racuna/:broj_racuna', component: StavkeRacunaComponent},
-      ] },
+      {
+        path: 'racun',
+        children: [
+          { path: '', component: RacunComponent },
+          { path: 'novi', component: FormaRacunComponent },
+          {
+            path: 'stavke-racuna/:broj_racuna',
+            component: StavkeRacunaComponent,
+          },
+        ],
+      },
       { path: 'otpremnica', component: OtpremnicaComponent },
       {
         path: 'ponuda',
@@ -45,6 +53,10 @@ const routes: Routes = [
             path: 'nova-knjiga-tocenja',
             component: FormaKnjigeTocenjaComponent,
           },
+          {
+            path: 'update-knjiga/:id',
+            component: UpdateKnjigaComponent,
+          },
         ],
       },
     ],
@@ -58,6 +70,7 @@ const routes: Routes = [
         children: [
           { path: '', component: ProizvodiComponent },
           { path: 'novi', component: FormaProizvodaComponent },
+          { path: 'edit/:id', component: EditProizvodComponent },
           { path: 'cene/:id', component: CeneComponent },
         ],
       },

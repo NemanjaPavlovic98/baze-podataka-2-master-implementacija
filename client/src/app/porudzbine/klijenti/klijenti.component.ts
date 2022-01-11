@@ -83,6 +83,12 @@ export class KlijentiComponent implements OnInit {
         this.getKlijent();
       });
     } else {
+      for (const key in this.form.value) {
+        if (this.form.value[key] === '') {
+          this.form.value[key] = null;
+        }
+      }
+      
       this.porudzbineService
         .updateKupac(this.updateKlijent.kupac_id, {
           ...this.form.value,
@@ -102,7 +108,6 @@ export class KlijentiComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    console.log(id);
     Swal.fire({
       title: 'Da li zelite da obrisete mesto?',
       showCancelButton: true,
@@ -127,7 +132,6 @@ export class KlijentiComponent implements OnInit {
       return ulc.ulica_id === this.updateKlijent.ulica_id;
     });
 
-    console.log(this.updateKlijent);
     this.form.patchValue({
       naziv: this.updateKlijent.naziv,
       pib: this.updateKlijent.pib,

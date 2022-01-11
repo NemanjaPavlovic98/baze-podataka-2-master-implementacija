@@ -2,7 +2,6 @@ const db = require("../db/index");
 
 async function getPonude(req, res, next) {
   const parameter = req.query.year ? `_${req.query.year}` : '1';
-  console.log(parameter)
   try {
     const result = await db.query(
       `

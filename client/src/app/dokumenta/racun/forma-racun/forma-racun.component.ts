@@ -127,9 +127,7 @@ export class FormaRacunComponent implements OnInit {
       otpremnica_id: this.form.value.otpremnica,
       stavke_racuna: [...this.stavke_racuna],
     };
-    console.log(finalData);
     this.ponudaService.postRacun(finalData).subscribe((res) => {
-      console.log(res);
       this.toastService.fireToast('success', 'Uspesno unet racun sa stavkama');
       this.router.navigate(['../'], { relativeTo: this.route });
     });

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
-import { CeneProizvod, JedinicaMere, Proizvod, Zaposleni } from '../models/proizvodi.model';
+import { CeneProizvod, FullProizvod, JedinicaMere, Proizvod, Zaposleni } from '../models/proizvodi.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +19,16 @@ export class PreduzeceService {
     return this.http.get<Proizvod[]>(`${this.URL_PROIZVODI}/getProizvodi`);
   }
 
+  getProizvod(id: number) {
+    return this.http.get<Proizvod>(`${this.URL_PROIZVODI}/getProizvod/${id}`);
+  }
+
   postProizvodi(proizvod: Proizvod){
     return this.http.post(`${this.URL_PROIZVODI}/postProizvod`, proizvod);
+  }
+
+  updateProizvod(id: number, proizvod: FullProizvod){
+    return this.http.put(`${this.URL_PROIZVODI}/updateProizvod/${id}`, proizvod);
   }
 
   getJediniceMere() {
@@ -44,8 +52,6 @@ export class PreduzeceService {
   }
 
   updateZaposleni(id: number, zaposleni){
-    console.log(id)
-    console.log(zaposleni)
     return this.http.put(`${this.URL_ZAPOSLENI}/updateZaposleni/${id}`, zaposleni);
   }
 
@@ -67,7 +73,6 @@ export class PreduzeceService {
   }
 
   postCenaZaProizvod(cenaProizvod: CeneProizvod){
-    console.log(cenaProizvod)
     return this.http.post(`${this.URL_PROIZVODI}/postCenaZaProizvod`, cenaProizvod);
   }
 

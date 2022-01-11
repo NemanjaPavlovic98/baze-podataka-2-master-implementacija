@@ -60,7 +60,6 @@ export class KnjigaTocejnaComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    console.log(id);
     Swal.fire({
       title: 'Da li zelite da obrisete rekord knjige tocenja?',
       showCancelButton: true,

@@ -46,8 +46,6 @@ export class PorudzbineService {
   }
 
   updateMesto(id: number, mesto){
-    console.log(id)
-    console.log(mesto)
     return this.http.put(`${this.URL_MESTA}/updateMesto/${id}`, mesto);
   }
 }

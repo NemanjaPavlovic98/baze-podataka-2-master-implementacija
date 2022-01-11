@@ -1,5 +1,18 @@
 const db = require("../db/index");
 
+async function getKnjigaTocenjaSingle(req, res, next) {
+  try {
+    const knjiga_tocenja = await db.query(
+      "select * from knjiga_tocenja_pregled where oznaka = $1",
+      [+req.params.id]
+    );
+    res.status(200).json(knjiga_tocenja.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
 async function getKnjigaTocenja(req, res, next) {
   try {
     const knjiga_tocenja = await db.query(
@@ -8,7 +21,8 @@ async function getKnjigaTocenja(req, res, next) {
     );
     res.status(200).json(knjiga_tocenja.rows);
   } catch (error) {
-    res.status(404).json({ succes: false, message: error });
+    res.status(error.status || 500);
+    res.json({ message: error.message });
   }
 }
 
@@ -20,16 +34,47 @@ async function getKnjigaTocenjaOsnovno(req, res, next) {
     );
     res.status(200).json(knjiga_tocenja.rows);
   } catch (error) {
-    res.status(404).json({ succes: false, message: error });
+    res.status(error.status || 500);
+    res.json({ message: error.message });
   }
 }
 
 async function postKnjigaTocenja(req, res, next) {
   try {
     const result = await db.query(
-        `INSERT INTO knjiga_tocenja_pregled 
+      `INSERT INTO knjiga_tocenja_pregled 
         VALUES ($1, $2, $3, $4, $5, $6);`,
-        [+req.body.oznaka, req.body.izdanje, req.body.datum, +req.body.nalog_izdao, +req.body.nalog_primio, +req.body.ponuda]);
+      [
+        +req.body.oznaka,
+        req.body.izdanje,
+        req.body.datum,
+        +req.body.nalog_izdao,
+        +req.body.nalog_primio,
+        +req.body.ponuda,
+      ]
+    );
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
+async function updateKnjigaTocenja(req, res, next) {
+  try {
+    const result = await db.query(
+      `UPDATE knjiga_tocenja_pregled 
+      SET izdanje=$1, datum=$2, nalog_izdao=$3, nalog_primio=$4, ponuda_id=$5
+        WHERE oznaka=$6`,
+      [
+        req.body.izdanje,
+        req.body.datum,
+        +req.body.nalog_izdao,
+        +req.body.nalog_primio,
+        +req.body.ponuda,
+        +req.params.id,
+      ]
+    );
     res.status(200).json(result.rows);
   } catch (error) {
     res.status(error.status || 500);
@@ -50,4 +95,11 @@ async function deleteKnjigaTocenja(req, res, next) {
   }
 }
 
-module.exports = { getKnjigaTocenja, postKnjigaTocenja, getKnjigaTocenjaOsnovno, deleteKnjigaTocenja };
+module.exports = {
+  getKnjigaTocenja,
+  postKnjigaTocenja,
+  getKnjigaTocenjaOsnovno,
+  deleteKnjigaTocenja,
+  getKnjigaTocenjaSingle,
+  updateKnjigaTocenja,
+};

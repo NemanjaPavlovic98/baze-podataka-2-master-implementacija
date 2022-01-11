@@ -56,6 +56,12 @@ export class MestaComponent implements OnInit {
         this.getMesta();
       });
     } else {
+      for (const key in this.form.value) {
+        if (this.form.value[key] === '') {
+          this.form.value[key] = null;
+        }
+      }
+      
       this.porudzbineService
         .updateMesto(this.updateMesto.mesto_id, this.form.value)
         .subscribe(() => {
@@ -69,7 +75,6 @@ export class MestaComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    console.log(id);
     Swal.fire({
       title: 'Da li zelite da obrisete mesto?',
       showCancelButton: true,
@@ -90,7 +95,6 @@ export class MestaComponent implements OnInit {
     this.updateMesto = this.dataSource.find((mest) => {
       return mest.mesto_id === id;
     });
-    console.log(this.updateMesto);
     this.form.patchValue({
       postanski_broj: this.updateMesto.postanski_broj,
       naziv_mesta: this.updateMesto.naziv_mesta,

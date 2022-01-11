@@ -57,6 +57,11 @@ export class ZaposleniComponent implements OnInit {
       });
     }
     else{
+      for (const key in this.form.value) {
+        if (this.form.value[key] === '') {
+          this.form.value[key] = null;
+        }
+      }
       this.preduzeceService.updateZaposleni(this.updateZaposleni.zaposleni_id, this.form.value).subscribe(() => {
         this.form.reset();
         this.formDirective.resetForm();
@@ -68,7 +73,6 @@ export class ZaposleniComponent implements OnInit {
   }
 
   onDelete(id: number){
-    console.log(id)
     Swal.fire({
       title: 'Da li zelite da obrisete zaposlenog?',
       showCancelButton: true,
@@ -90,7 +94,6 @@ export class ZaposleniComponent implements OnInit {
     this.updateZaposleni = this.dataSource.find( zap => {
       return zap.zaposleni_id === id;
     })
-    console.log(this.updateZaposleni)
     this.form.patchValue({
       ime: this.updateZaposleni.ime,
       prezime: this.updateZaposleni.prezime

@@ -50,7 +50,6 @@ export class PonudaService {
       .get(`${this.API_URL}/knjiga-tocenja/getKnjigaTocenja`)
       .pipe(
         map((res: KnjigaTocenja[]) => {
-          console.log(res);
           return res.map((knjiga: KnjigaTocenja) => {
             const novi = {
               oznaka: knjiga.oznaka,
@@ -60,6 +59,22 @@ export class PonudaService {
               opis: knjiga.opis,
               nalog_izdao: knjiga.izdao_ime + ' ' + knjiga.izdao_prezime,
               nalog_primio: knjiga.primio_ime + ' ' + knjiga.primio_prezime,
+            };
+            return novi;
+          });
+        })
+      );
+  }
+
+  getKnjigeTocenjaSingle(id: number) {
+    return this.http
+      .get(`${this.API_URL}/knjiga-tocenja/getKnjigaTocenja/${id}`)
+      .pipe(
+        map((res: KnjigaTocenja[]) => {
+          return res.map((knjiga: KnjigaTocenja) => {
+            const novi = {
+              ...knjiga,
+              datum: this.datepipe.transform(knjiga.datum, 'yyyy-MM-dd'),
             };
             return novi;
           });
@@ -77,6 +92,13 @@ export class PonudaService {
     return this.http.post(
       `${this.API_URL}/knjiga-tocenja/postKnjigaTocenja`,
       knjigaTocenja
+    );
+  }
+
+  updateKnjigaTocenja(oznaka, knjiga_tocenja) {
+    return this.http.put(
+      `${this.API_URL}/knjiga-tocenja/updateKnjigaTocenja/${oznaka}`,
+      knjiga_tocenja
     );
   }
 

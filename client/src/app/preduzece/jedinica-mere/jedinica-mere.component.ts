@@ -67,7 +67,6 @@ export class JedinicaMereComponent implements OnInit {
   }
 
   onDelete(id: number){
-    console.log(id)
     Swal.fire({
       title: 'Da li zelite da obrisete jedinicu mere?',
       showCancelButton: true,
