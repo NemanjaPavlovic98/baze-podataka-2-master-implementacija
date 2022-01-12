@@ -114,8 +114,6 @@ export class OtpremnicaComponent implements OnInit {
       return otpr.broj_otpremnice === id;
     });
 
-    console.log(this.updateOtpremnica.broj_otpremnice)
-
     this.form.patchValue({
       mesto_izdavanja: this.updateOtpremnica.mesto_izdavanja,
       datum: this.updateOtpremnica.datum,

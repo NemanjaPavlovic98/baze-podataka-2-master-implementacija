@@ -74,8 +74,6 @@ export class FormaRacunComponent implements OnInit {
         this.racunForUpdate = res;
 
         this.ponudaService.getStavkeRacuna(this.racun_id).subscribe((res) => {
-          console.log('On init:');
-          console.log(res);
           this.stavke_racuna = res;
           this.dataSource = res;
         });
@@ -105,8 +103,6 @@ export class FormaRacunComponent implements OnInit {
         kolicina: this.form.value?.kolicina,
         iznos: this.form.value?.iznos,
       });
-      console.log('After push:');
-      console.log(this.stavke_racuna);
       this.form.controls['proizvod'].reset();
       this.form.controls['kolicina'].reset();
       this.form.controls['iznos'].reset();
@@ -120,8 +116,6 @@ export class FormaRacunComponent implements OnInit {
     this.stavke_racuna = this.stavke_racuna.filter((pr) => {
       return pr.proizvod_id !== id;
     });
-    console.log('on delete: ');
-    console.log(this.stavke_racuna);
     this.dataSource = [...this.stavke_racuna];
   }
 

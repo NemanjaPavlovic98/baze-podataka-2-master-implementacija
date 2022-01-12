@@ -38,7 +38,6 @@ export class PonudaFormaComponent implements OnInit {
     this.ponuda_id = +this.route.snapshot.paramMap.get('id');
     if(this.ponuda_id){
       this.ponudaService.getPonuda(this.ponuda_id).subscribe(res => {
-        console.log(res)
         this.edit_mode = true;
         
         this.form.patchValue({

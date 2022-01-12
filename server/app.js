@@ -1,7 +1,5 @@
 const express = require("express");
-// const path = require("path");
 
-const testRoutes = require("./routes/test");
 const mestoRoutes = require("./routes/mesto");
 const ponudaRoutes = require("./routes/ponuda");
 const proizvodRoutes = require("./routes/proizvod");
@@ -36,7 +34,6 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to application." });
 });
 
-app.use("/test", testRoutes);
 app.use("/mesto", mestoRoutes);
 app.use("/ponuda", ponudaRoutes);
 app.use("/proizvod", proizvodRoutes);
