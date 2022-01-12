@@ -1,7 +1,7 @@
 # Projekat iz predmeta 'Baze podataka 2'
 Tema: 'Informacioni sistem prodaje preduzeća "SMUK rakija"'
 
-
+Tehnologije korišćene u radu: Angular, Node.js, Express, Postgresql
 ## Opis podsistema za koje se radi projekat
 Radnja za proizvodnju pića i konzervaciju voća ”PR Vesna Vukojević” osnovana je 2013. godine.  Radnja se bavi primarno proizvodnjom rakije i njen najveći brend se zove ”SMUK rakija”. Brend je osnovan početkom 2020. godine. Vremenom, probijajući se na tržište, brend zauzima jedno od vodećih mesta u Srbiji u oblasti voćnih destilata. Celokupan proces proizvodnje, od održavanja voćnjaka do procesa proizvodnje i marketinga, odrađuje preduzeće.
 
