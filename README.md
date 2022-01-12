@@ -9,18 +9,23 @@ Proces prodaje započinje distributer slanjem **narudžbenice**. Nakon prijema n
 
 ## Projektovanje baze podataka - PMOV za svaki dokument
 Ponuda:
+
 ![image](https://user-images.githubusercontent.com/48028697/149149803-866cfadb-fc0b-4e08-957d-ff4a1e16f527.png)
 
 Predračun:
+
 ![image](https://user-images.githubusercontent.com/48028697/149150357-92bea7da-f13a-49de-b82d-9034d5383fce.png)
 
 Knjiga točenja (hasap):
+
 ![image](https://user-images.githubusercontent.com/48028697/149150453-62705ff7-d592-4e85-b4a8-7c896ce3eec9.png)
 
 Otpremnica:
+
 ![image](https://user-images.githubusercontent.com/48028697/149150470-d6b0078b-8963-4828-a8ea-d7aa371cf40b.png)
 
 Račun:
+
 ![image](https://user-images.githubusercontent.com/48028697/149150486-c3eb79ff-2845-413b-93a1-1bbdd1b20641.png)
 
 ## Denormalizacija relacija
@@ -53,6 +58,7 @@ CREATE TRIGGER insert_ulica
 </pre>
 
 ### Narušavanje treće normalne forme
+
 ![image](https://user-images.githubusercontent.com/48028697/149150753-e76c9a42-e833-4b23-a9dd-eac773113607.png)
 
 Primer trigera: 
@@ -174,7 +180,7 @@ CREATE TRIGGER knjiga_tocenja_unos
 
 ### Storing Derivable Values
 Ako se uvede polje UkupanIznos u tabelu Racun olaksava se upit nad bazom koji izračunava ukupnu vrednost računa. Polje UkupanIznos predstavlja izvedenu vrednost i računa se kao suma stavki računa, za polja iznos i količina.
-![image](https://user-images.githubusercontent.com/48028697/149153198-a2ea58c4-4989-4583-81a7-85166c6ab660.png)
+![image](https://user-images.githubusercontent.com/48028697/149153198-a2ea58c4-4989-4583-81a7-85166c6ab660.png){ width: 350px; }
 
 Primer trigera:
 - Triger koji se okida prilikom unosa novog reda u tabeli StavkeRacuna:
