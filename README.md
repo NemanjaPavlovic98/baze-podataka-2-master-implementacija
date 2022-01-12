@@ -10,23 +10,23 @@ Proces prodaje započinje distributer slanjem **narudžbenice**. Nakon prijema n
 ## Projektovanje baze podataka - PMOV za svaki dokument
 Ponuda:
 
-![image](https://user-images.githubusercontent.com/48028697/149149803-866cfadb-fc0b-4e08-957d-ff4a1e16f527.png =250x)
+![image](https://user-images.githubusercontent.com/48028697/149149803-866cfadb-fc0b-4e08-957d-ff4a1e16f527.png)
 
 Predračun:
 
-![image](https://user-images.githubusercontent.com/48028697/149150357-92bea7da-f13a-49de-b82d-9034d5383fce.png =250x)
+![image](https://user-images.githubusercontent.com/48028697/149150357-92bea7da-f13a-49de-b82d-9034d5383fce.png)
 
 Knjiga točenja (hasap):
 
-![image](https://user-images.githubusercontent.com/48028697/149150453-62705ff7-d592-4e85-b4a8-7c896ce3eec9.png =250x)
+![image](https://user-images.githubusercontent.com/48028697/149150453-62705ff7-d592-4e85-b4a8-7c896ce3eec9.png)
 
 Otpremnica:
 
-![image](https://user-images.githubusercontent.com/48028697/149150470-d6b0078b-8963-4828-a8ea-d7aa371cf40b.png =250x)
+![image](https://user-images.githubusercontent.com/48028697/149150470-d6b0078b-8963-4828-a8ea-d7aa371cf40b.png)
 
 Račun:
 
-![image](https://user-images.githubusercontent.com/48028697/149150486-c3eb79ff-2845-413b-93a1-1bbdd1b20641.png =250x)
+![image](https://user-images.githubusercontent.com/48028697/149150486-c3eb79ff-2845-413b-93a1-1bbdd1b20641.png)
 
 ## Denormalizacija relacija
 ### Narušavanje druge normalne forme
