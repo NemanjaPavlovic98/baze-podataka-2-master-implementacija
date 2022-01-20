@@ -30,6 +30,7 @@ import { FormaRacunComponent } from './dokumenta/racun/forma-racun/forma-racun.c
 import { OtpremnicaComponent } from './dokumenta/otpremnica/otpremnica.component';
 import { EditProizvodComponent } from './preduzece/proizvodi/edit-proizvod/edit-proizvod.component';
 import { UpdateKnjigaComponent } from './dokumenta/knjiga-tocejna/update-knjiga/update-knjiga.component';
+import { UliceComponent } from './porudzbine/ulice/ulice.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { UpdateKnjigaComponent } from './dokumenta/knjiga-tocejna/update-knjiga/
     OtpremnicaComponent,
     EditProizvodComponent,
     UpdateKnjigaComponent,
+    UliceComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,56 +1,61 @@
 .container {
-    padding-top: 100px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-  
-    .content {
-      table {
-        width: 500px;
-        max-width: 90%;
-  
-        .cdk-column-prezime {
-          width: 120px;
-        }
-      }
-  
-      button {
-        margin: 16px 8px 16px 0;
+  padding-top: 100px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  .content {
+    table {
+      width: 500px;
+      max-width: 90%;
+
+      .cdk-column-prezime {
+        width: 120px;
       }
     }
-  
-    .form {
-      mat-card {
-        width: 350px;
-        max-width: 90%;
-        margin: 0px auto 0px;
-        text-align: center;
-        position: relative;
-        padding-top: 30px;
-      }
-  
-      mat-form-field {
-        width: 100%;
-      }
-  
-      .button {
-        display: block;
-        margin: auto;
-        cursor: pointer;
-        text-transform: uppercase;
-      }
-  
-      a {
-        margin: 20px 0;
-        display: inline-block;
-        opacity: 0.4;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-  
-      mat-spinner {
-        margin: auto;
-      }
+
+    button {
+      margin: 16px 8px 16px 0;
     }
   }
-  
+
+  .search-form {
+    button {
+      margin-left: 10px;
+    }
+  }
+
+  .form {
+    mat-card {
+      width: 350px;
+      max-width: 90%;
+      margin: 0px auto 0px;
+      text-align: center;
+      position: relative;
+      padding-top: 30px;
+    }
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    .button {
+      display: block;
+      margin: auto;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    a {
+      margin: 20px 0;
+      display: inline-block;
+      opacity: 0.4;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    mat-spinner {
+      margin: auto;
+    }
+  }
+}

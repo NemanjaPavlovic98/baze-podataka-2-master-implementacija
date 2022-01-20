@@ -13,6 +13,7 @@ import { RacunComponent } from './dokumenta/racun/racun.component';
 import { StavkeRacunaComponent } from './dokumenta/racun/stavke-racuna/stavke-racuna.component';
 import { KlijentiComponent } from './porudzbine/klijenti/klijenti.component';
 import { MestaComponent } from './porudzbine/mesta/mesta.component';
+import { UliceComponent } from './porudzbine/ulice/ulice.component';
 import { JedinicaMereComponent } from './preduzece/jedinica-mere/jedinica-mere.component';
 import { CeneComponent } from './preduzece/proizvodi/cene/cene.component';
 import { EditProizvodComponent } from './preduzece/proizvodi/edit-proizvod/edit-proizvod.component';
@@ -89,10 +90,11 @@ const routes: Routes = [
       { path: '', component: MestaComponent },
       {
         path: 'mesta',
-        children: [
-          { path: '', component: MestaComponent },
-          { path: 'novi', component: FormaProizvodaComponent },
-        ],
+        children: [{ path: '', component: MestaComponent }],
+      },
+      {
+        path: 'ulice',
+        children: [{ path: '', component: UliceComponent }],
       },
       {
         path: 'klijenti',

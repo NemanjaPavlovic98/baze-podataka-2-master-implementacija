@@ -14,6 +14,7 @@ export class MestaComponent implements OnInit {
   @ViewChild('formDirective') private formDirective: NgForm;
 
   form: FormGroup;
+  formSearch: FormGroup;
   editMode = false;
   updateMesto: Mesto;
 
@@ -44,6 +45,16 @@ export class MestaComponent implements OnInit {
     this.form = new FormGroup({
       postanski_broj: new FormControl(null),
       naziv_mesta: new FormControl(null),
+    });
+
+    this.formSearch = new FormGroup({
+      pretraga: new FormControl(null, Validators.required)
+    });
+  }
+
+  onSearch(){
+    this.porudzbineService.getMesta(this.formSearch.value.pretraga).subscribe(res => {
+      this.dataSource = res
     });
   }
 

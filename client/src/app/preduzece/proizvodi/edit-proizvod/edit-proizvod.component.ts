@@ -45,6 +45,7 @@ export class EditProizvodComponent implements OnInit {
         jacina: new FormControl(this.proizvod.jacina),
         lab: new FormControl(this.proizvod.br_analize),
         jedinica: new FormControl(this.proizvod.sifra_jm),
+        jedinica_naziv: new FormControl(this.proizvod.naziv_jm),
       });
     });
 

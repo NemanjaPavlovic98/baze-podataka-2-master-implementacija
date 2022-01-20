@@ -23,15 +23,9 @@ async function postKupac(req, res, next) {
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
-      const insertUlicaText = `insert into ulica(mesto_id, naziv_ulice) values($1, $2) returning ulica_id`;
-      const ulicaId = await client.query(insertUlicaText, [
-        req.body.mesto,
-        req.body.ulica,
-      ]);
-
       const insertAdresaText = `insert into adresa (ulica_id, mesto_id, broj) values ($1, $2, $3) returning adresa_id`;
       const insertAdresaValues = [
-        ulicaId.rows[0].ulica_id,
+        req.body.ulica,
         req.body.mesto,
         req.body.broj,
       ];
@@ -45,7 +39,7 @@ async function postKupac(req, res, next) {
         req.body.mb,
         req.body.telefon,
         adresaId.rows[0].adresa_id,
-        ulicaId.rows[0].ulica_id,
+        req.body.ulica,
         req.body.mesto,
       ];
       await client.query(insertKupacText, insertKupacValues);
@@ -77,62 +71,46 @@ async function deleteKupac(req, res, next) {
   }
 }
 async function updateKupac(req, res, next) {
+  console.log(req.body)
   const pool = db.pool;
   (async () => {
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
 
-      // const kombinacijaMestoUlica = await client.query(
-      //   `select * from ulica where ulica_id = $1 and mesto_id = $2`,
-      //   [req.body.ulica_id, req.body.mesto]
-      // );
+      const insertAdresaText = `insert into adresa (ulica_id, mesto_id, broj) values ($1, $2, $3) returning adresa_id`;
+      const insertAdresaValue = [
+        req.body.ulica,
+        req.body.mesto,
+        req.body.broj,
+      ];
+      const adresaId = await client.query(insertAdresaText, insertAdresaValue);
 
-      // if (kombinacijaMestoUlica.rows.length > 0) {
-        const updateUlicaText = `UPDATE ulica SET naziv_ulice = $1 WHERE mesto_id = $2 and ulica_id = $3`;
-        await client.query(updateUlicaText, [
-          req.body.ulica,
-          req.body.mesto,
-          req.body.ulica_id,
-        ]);
-
-        const updateAdresaText = `UPDATE adresa SET broj = $1 WHERE mesto_id = $2 and ulica_id = $3 and adresa_id=$4`;
-        const updateAdresaValues = [
-          req.body.broj,
-          req.body.mesto,
-          req.body.ulica_id,
-          req.body.adresa_id,
-        ];
-        await client.query(updateAdresaText, updateAdresaValues);
-      // } else {
-      //   const insertUlicaText = `insert into ulica(mesto_id, naziv_ulice) values($1, $2) returning ulica_id`;
-      //   const ulicaId = await client.query(insertUlicaText, [
-      //     req.body.mesto,
-      //     req.body.ulica,
-      //   ]);
-
-      //   const insertAdresaText = `insert into adresa (ulica_id, mesto_id, broj) values ($1, $2, $3) returning adresa_id`;
-      //   const insertAdresaValues = [
-      //     ulicaId.rows[0].ulica_id,
-      //     req.body.mesto,
-      //     req.body.broj,
-      //   ];
-      //   const adresaId = await client.query(insertAdresaText, insertAdresaValues);
-      // }
-
-      const updateKupacText = `UPDATE kupac set naziv = $1, pib = $2, mb = $3, telefon = $4
-      WHERE kupac_id = $5 and adresa_id = $6 and ulica_id = $7 and mesto_id=$8`;
+      const updateKupacText = `UPDATE kupac SET naziv = $1, pib = $2, mb = $3, telefon = $4,
+      adresa_id = $5, ulica_id = $6, mesto_id=$7
+      WHERE kupac_id = $8 AND adresa_id = $9 AND ulica_id = $10 AND mesto_id=$11`;
       const updateKupacValues = [
         req.body.naziv,
         req.body.pib,
         req.body.mb,
         req.body.telefon,
+        adresaId.rows[0].adresa_id,
+        req.body.ulica,
+        req.body.mesto,
         req.params.id,
         req.body.adresa_id,
         req.body.ulica_id,
-        req.body.mesto,
+        req.body.mesto_id,
       ];
       await client.query(updateKupacText, updateKupacValues);
+
+      const deleteUpdateAdresaText = `DELETE FROM adresa WHERE mesto_id = $1 and ulica_id = $2 and adresa_id=$3`;
+      const deleteUpdateAdresaValues = [
+        req.body.mesto_id,
+        req.body.ulica_id,
+        req.body.adresa_id,
+      ];
+      await client.query(deleteUpdateAdresaText, deleteUpdateAdresaValues);
 
       await client.query("COMMIT");
       res.status(200).json({ succes: true });

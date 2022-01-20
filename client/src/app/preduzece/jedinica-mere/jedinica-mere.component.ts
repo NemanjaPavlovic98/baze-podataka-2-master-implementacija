@@ -16,10 +16,11 @@ export class JedinicaMereComponent implements OnInit {
   @ViewChild('formDirective') private formDirective: NgForm;
   
   form: FormGroup;
-  error: string;
+  editMode = false;
+  updateJM: JedinicaMere;
 
   displayedColumns = {
-    naziv: 'Naziv',
+    naziv_jm: 'Naziv',
   };
   displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
   dataSource = [];
@@ -38,7 +39,7 @@ export class JedinicaMereComponent implements OnInit {
     .pipe(
       map((response:JedinicaMere[]) => {
         return response.map(arr =>{
-           return {sifra_jm: arr.sifra_jm, naziv: arr.naziv_jm}
+           return {sifra_jm: arr.sifra_jm, naziv_jm: arr.naziv_jm}
         })
       })
     )
@@ -50,20 +51,36 @@ export class JedinicaMereComponent implements OnInit {
     this.getJedinica();
 
     this.form = new FormGroup({
-      naziv: new FormControl(null, Validators.required),
+      naziv: new FormControl(null),
     });
   }
 
   onAddNew() {
-    if (this.form.invalid) {
-      return;
+    if (!this.editMode) {
+      this.preduzeceService.postJediniceMere(this.form.value).subscribe((res) => {
+        this.form.reset();
+        this.formDirective.resetForm();
+        this.toastService.fireToast('success', 'Jedinica mere uspesno dodata!');
+        this.getJedinica();
+      });
+    } else {
+      for (const key in this.form.value) {
+        if (this.form.value[key] === '') {
+          this.form.value[key] = null;
+        }
+      }
+      
+      this.preduzeceService
+        .updateJediniceMere(this.updateJM.sifra_jm, this.form.value)
+        .subscribe(() => {
+          this.form.reset();
+          this.formDirective.resetForm();
+          this.toastService.fireToast('success', 'Jedinica mere uspesno azurirana!');
+          this.editMode = false;
+          this.getJedinica();
+        });
     }
-    this.preduzeceService.postJediniceMere(this.form.value).subscribe((res) => {
-      this.form.reset();
-      this.formDirective.resetForm();
-      this.toastService.fireToast('success', 'Jedinica mere uspesno dodata!');
-      this.getJedinica();
-    });
+
   }
 
   onDelete(id: number){
@@ -80,6 +97,17 @@ export class JedinicaMereComponent implements OnInit {
         })
       }
     })
+  }
+
+  onEdit(id: number) {
+    this.editMode = true;
+    this.updateJM = this.dataSource.find((jm) => {
+      return jm.sifra_jm === id;
+    });
+    console.log(this.updateJM)
+    this.form.patchValue({
+      naziv: this.updateJM.naziv_jm,
+    });
   }
 
 }

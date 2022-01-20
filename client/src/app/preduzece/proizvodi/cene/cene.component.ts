@@ -77,7 +77,7 @@ export class CeneComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.preduzeceService.deleteCenaZaProizvod(this.proizvodId, datum).subscribe(() => {
-          Swal.fire('Proizvod obrisan!', '', 'success');
+          Swal.fire('Cena obrisana!', '', 'success');
           this.getCeneZaProizvod();
         });
       }

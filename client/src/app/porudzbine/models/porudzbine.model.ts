@@ -34,3 +34,10 @@ export interface Ulica{
   ulica_id: number,
   naziv_ulice: string
 }
+
+export interface UlicaTable{
+  mesto_id: number,
+  ulica_id: number,
+  naziv_ulice: string,
+  naziv_mesta: string
+}

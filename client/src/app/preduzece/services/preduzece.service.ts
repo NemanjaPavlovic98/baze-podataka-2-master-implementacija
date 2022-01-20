@@ -39,6 +39,12 @@ export class PreduzeceService {
     return this.http.post(`${this.URL_JEDINICE}/postJediniceMere`, jedinica_mere);
   }
 
+  updateJediniceMere(id:number, jedinica_mere: {naziv: string}) {
+    console.log(jedinica_mere)
+    return this.http.put(`${this.URL_JEDINICE}/updateJedinicaMere/${id}`, jedinica_mere);
+  }
+
+
   deleteJediniceMere(id: number){
     return this.http.delete(`${this.URL_JEDINICE}/deleteJedinicaMere/${id}`);
   }

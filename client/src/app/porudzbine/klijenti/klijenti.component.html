@@ -59,7 +59,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Mesto</mat-label>
-            <mat-select formControlName="mesto" name="mesto">
+            <mat-select (selectionChange)="getUliceZaMesto($event.value)" formControlName="mesto" name="mesto">
               <mat-option *ngFor="let mes of mesta" [value]="mes.mesto_id">
                 {{ mes.postanski_broj + ' - ' + mes.naziv_mesta }}
               </mat-option>
@@ -68,12 +68,16 @@
 
           <mat-form-field class="w-70" appearance="outline">
             <mat-label>Ulica</mat-label>
-            <input matInput name="ulica" type="text" formControlName="ulica" />
+            <mat-select [attr.disabled]="!this.form.get('mesto').value || !editMode" formControlName="ulica" name="ulica">
+              <mat-option *ngFor="let ul of ulice" [value]="ul.ulica_id">
+                {{ ul.naziv_ulice }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field class="w-30" appearance="outline">
             <mat-label>Broj</mat-label>
-            <input matInput name="broj" type="number" formControlName="broj" />
+            <input [readonly]="!this.form.get('mesto').value && !this.form.get('ulica').value" matInput name="broj" type="number" formControlName="broj" />
           </mat-form-field>
           
   

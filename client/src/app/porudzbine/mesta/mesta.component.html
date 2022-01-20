@@ -1,68 +1,97 @@
 <div class="container">
-    <div class="content">
-      <h1>Mesta</h1>
-  
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container
-          [matColumnDef]="column"
-          *ngFor="let column of objectKeys(displayedColumns)"
-        >
-          <th mat-header-cell *matHeaderCellDef>
-            {{ displayedColumns[column] }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let element">
-            <mat-icon (click)="onEdit(element.mesto_id)">edit</mat-icon>
-            <mat-icon (click)="onDelete(element.mesto_id)">delete</mat-icon>
-          </td>
-        </ng-container>
-  
-        <tr
-          mat-header-row
-          *matHeaderRowDef="objectKeys(displayedColumnsFull)"
-        ></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: objectKeys(displayedColumnsFull)"
-        ></tr>
-      </table>
-    </div>
-    <div class="form">
-      <h1>{{editMode ? 'Azuriraj' : 'Dodaj novo'}} mesto</h1>
-  
-      <mat-card>
-        <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
-        <form [formGroup]="form" (submit)="onAddNew()" #formDirective="ngForm">
-          <mat-form-field appearance="outline">
-            <mat-label>Postanski broj</mat-label>
-            <input matInput name="postanski_broj" type="text" formControlName="postanski_broj" />
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline">
-            <mat-label>Naziv mesta</mat-label>
-            <input
-              matInput
-              name="naziv_mesta"
-              type="text"
-              formControlName="naziv_mesta"
-            />
-          </mat-form-field>
-  
-          <button
-            [disabled]="form.invalid"
-            mat-raised-button
-            color="primary"
-            type="submit"
-            class="button"
-          >
-          {{editMode ? 'Azuriraj' : 'Dodaj novo'}} mesto
-          </button>
-        </form>
-      </mat-card>
+  <div class="content">
+    <h1>Mesta</h1>
+
+    <form class="search-form" [formGroup]="formSearch" (submit)="onSearch()">
+      <mat-form-field appearance="outline">
+        <mat-label>Pretraga po godini</mat-label>
+        <input
+          matInput
+          name="pretraga"
+          type="text"
+          formControlName="pretraga"
+        />
+      </mat-form-field>
+
+      <button
+        [disabled]="form.invalid"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="button"
+      >
+        Pretrazi
+      </button>
+    </form>
+
+    <table mat-table *ngIf="dataSource.length>0" [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container
+        [matColumnDef]="column"
+        *ngFor="let column of objectKeys(displayedColumns)"
+      >
+        <th mat-header-cell *matHeaderCellDef>
+          {{ displayedColumns[column] }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon (click)="onEdit(element.mesto_id)">edit</mat-icon>
+          <mat-icon (click)="onDelete(element.mesto_id)">delete</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="objectKeys(displayedColumnsFull)"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: objectKeys(displayedColumnsFull)"
+      ></tr>
+    </table>
+    <div style="width: 500px;" *ngIf="dataSource.length <= 0">
+      <h1 style="margin: auto 150px auto 0; background: rgb(245, 243, 243);border: 1px solid rgb(187, 183, 183);">Nema podataka</h1>
     </div>
   </div>
-  
+  <div class="form">
+    <h1>{{ editMode ? "Azuriraj" : "Dodaj novo" }} mesto</h1>
+
+    <mat-card>
+      <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+      <form [formGroup]="form" (submit)="onAddNew()" #formDirective="ngForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Postanski broj</mat-label>
+          <input
+            matInput
+            name="postanski_broj"
+            type="text"
+            formControlName="postanski_broj"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Naziv mesta</mat-label>
+          <input
+            matInput
+            name="naziv_mesta"
+            type="text"
+            formControlName="naziv_mesta"
+          />
+        </mat-form-field>
+
+        <button
+          [disabled]="form.invalid"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="button"
+        >
+          {{ editMode ? "Azuriraj" : "Dodaj novo" }} mesto
+        </button>
+      </form>
+    </mat-card>
+  </div>
+</div>

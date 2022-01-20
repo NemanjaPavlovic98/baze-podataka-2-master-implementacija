@@ -24,9 +24,10 @@ async function getProizvod(req, res, next) {
 }
 
 async function updateProizvod(req, res, next) {
+  console.log(req.body)
   try {
     const result = await db.query(
-      "UPDATE proizvod SET naziv=$1, sifra_jm=$2, pdv_id=1, p_info=($3, $4, $5) WHERE proizvod_id=$6",
+      "UPDATE proizvod SET naziv=$1, sifra_jm=$2, naziv_jm=$7, pdv_id=1, p_info=($3, $4, $5) WHERE proizvod_id=$6",
       [
         req.body.naziv,
         req.body.jedinica,
@@ -34,6 +35,7 @@ async function updateProizvod(req, res, next) {
         +req.body.jacina,
         req.body.lab,
         +req.params.id,
+        req.body.jedinica_naziv
       ]
     );
     res.status(200).json(result.rows);

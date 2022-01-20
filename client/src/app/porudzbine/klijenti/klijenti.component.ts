@@ -43,6 +43,7 @@ export class KlijentiComponent implements OnInit {
 
   private getKlijent() {
     this.porudzbineService.getKupci().subscribe((res) => {
+      console.log(res)
       this.dataSource = res;
     });
   }
@@ -53,16 +54,15 @@ export class KlijentiComponent implements OnInit {
     });
   }
 
-  getUlice() {
-    this.porudzbineService.getUlice().subscribe((res) => {
+  getUlice(mesto_id: number) {
+    this.porudzbineService.getUliceForMesto(mesto_id).subscribe((res) => {
       this.ulice = res;
     });
   }
 
   ngOnInit(): void {
     this.getKlijent();
-    this, this.getMesta();
-    this.getUlice();
+    this.getMesta();
     this.form = new FormGroup({
       naziv: new FormControl(null),
       pib: new FormControl(null),
@@ -73,8 +73,12 @@ export class KlijentiComponent implements OnInit {
       broj: new FormControl(null),
     });
   }
+  getUliceZaMesto(mesto_id: number){
+    this.getUlice(mesto_id);
+  }
 
   onAddNew() {
+    console.log(this.form.value)
     if (!this.editMode) {
       this.porudzbineService.postKupac(this.form.value).subscribe((res) => {
         this.form.reset();
@@ -94,6 +98,7 @@ export class KlijentiComponent implements OnInit {
           ...this.form.value,
           adresa_id: this.updateKlijent.adresa_id,
           ulica_id: this.updateKlijent.ulica_id,
+          mesto_id: this.updateKlijent.mesto_id,
         })
         .subscribe(() => {
           this.form.reset();
@@ -101,7 +106,7 @@ export class KlijentiComponent implements OnInit {
           this.toastService.fireToast('success', 'Kupac uspesno azuriran!');
           this.editMode = false;
           this.getKlijent();
-          this.getUlice();
+          // this.getUlice();
           this.getMesta();
         });
     }
@@ -128,9 +133,7 @@ export class KlijentiComponent implements OnInit {
     this.updateKlijent = this.dataSource.find((mest) => {
       return mest.kupac_id === id;
     });
-    const ulicaFind = this.ulice.find((ulc: Partial<Kupac>) => {
-      return ulc.ulica_id === this.updateKlijent.ulica_id;
-    });
+    this.getUlice(this.updateKlijent.mesto_id)
 
     this.form.patchValue({
       naziv: this.updateKlijent.naziv,
@@ -138,7 +141,7 @@ export class KlijentiComponent implements OnInit {
       mb: this.updateKlijent.mb,
       telefon: this.updateKlijent.telefon,
       mesto: this.updateKlijent.mesto_id,
-      ulica: ulicaFind.naziv_ulice,
+      ulica: this.updateKlijent.ulica_id,
       broj: this.updateKlijent.broj,
     });
   }

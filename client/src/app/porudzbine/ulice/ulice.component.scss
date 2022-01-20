@@ -6,14 +6,11 @@
   
     .content {
       table {
-        width: 400px;
+        width: 500px;
         max-width: 90%;
   
         .cdk-column-prezime {
-          width: 100px;
-        }
-        .cdk-column-actions{
-          width: 50px;
+          width: 120px;
         }
       }
   
@@ -26,7 +23,7 @@
       mat-card {
         width: 350px;
         max-width: 90%;
-        margin: 40px auto 0px;
+        margin: 0px auto 0px;
         text-align: center;
         position: relative;
         padding-top: 30px;

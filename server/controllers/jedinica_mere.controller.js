@@ -21,6 +21,18 @@ async function postJedinicaMere(req, res, next) {
   }
 }
 
+async function updateJedinicaMere(req, res, next) {
+  try {
+    const result = await db.query(
+        `UPDATE jedinica_mere SET naziv_jm=$1 WHERE sifra_jm = $2`,
+        [req.body.naziv, req.params.id]);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    res.status(error.status || 500);
+    res.json({ message: error.message });
+  }
+}
+
 async function deleteJedinicaMere(req, res, next) {
   try {
     const result = await db.query(
@@ -34,4 +46,4 @@ async function deleteJedinicaMere(req, res, next) {
   }
 }
 
-module.exports = { getJedinicaMere, postJedinicaMere, deleteJedinicaMere };
+module.exports = { getJedinicaMere, postJedinicaMere, deleteJedinicaMere, updateJedinicaMere };

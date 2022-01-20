@@ -25,9 +25,14 @@
       <mat-label>Jedinica mere</mat-label>
       <mat-select formControlName="jedinica" name="jedinica">
         <mat-option *ngFor="let jm of jedinice_mere" [value]="jm.sifra_jm">
-          {{ jm.naziv_jm }}
+          {{ 'ID: ' + jm.sifra_jm + ' (' + jm.naziv_jm + ')' }}
         </mat-option>
       </mat-select>
+    </mat-form-field>
+
+    <mat-form-field style="opacity: 0.4;" appearance="outline">
+      <mat-label>Naziv jedinice mere</mat-label>
+      <input matInput name="jedinica_naziv" type="text" formControlName="jedinica_naziv" />
     </mat-form-field>
     <!-- button -->
 

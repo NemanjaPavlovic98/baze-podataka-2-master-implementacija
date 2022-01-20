@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
-import { Kupac, KupacPost, Mesto, Ulica } from '../models/porudzbine.model';
+import { Kupac, KupacPost, Mesto, Ulica, UlicaTable } from '../models/porudzbine.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +14,30 @@ export class PorudzbineService {
   constructor(private http: HttpClient) {}
 
   getUlice() {
-    return this.http.get<Ulica[]>(`${this.URL_MESTA}/getUlica`);
+    return this.http.get<UlicaTable[]>(`${this.URL_MESTA}/getUlica`);
   }
 
-  getMesta() {
-    return this.http.get<Mesto[]>(`${this.URL_MESTA}/getMesta`);
+  getUliceForMesto(mestoId: number) {
+    return this.http.get<UlicaTable[]>(`${this.URL_MESTA}/getUlicaZaMesto/${mestoId}`);
+  }
+
+  postUlica(ulica: Partial<Ulica>){
+    return this.http.post(`${this.URL_MESTA}/postUlica`, ulica);
+  }
+
+  updateUlica(id: number, mesto: number, ulica: Partial<Ulica>){
+    return this.http.put(`${this.URL_MESTA}/updateUlica/${id}`, {mesto: mesto, ulica: ulica});
+  }
+
+  deleteUlica(id: number, mesto: number){
+    return this.http.post(`${this.URL_MESTA}/deleteUlica/${id}`, {mesto: mesto});
+  }
+
+  getMesta(naziv?: string) {
+    let params = naziv ? {naziv: naziv} : {}
+    return this.http.get<Mesto[]>(`${this.URL_MESTA}/getMesta`, {
+      params: params,
+    });
   }
 
   postMesto(mesto: Mesto){
