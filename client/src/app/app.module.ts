@@ -1,69 +1,37 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { SidenavComponent } from './shared/sidenav/sidenav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { RacunComponent } from './dokumenta/racun/racun.component';
-import { DokumentaComponent } from './dokumenta/dokumenta.component';
-import { PonudaComponent } from './dokumenta/ponuda/ponuda.component';
-import { DatePipe } from '@angular/common';
-import { ZaposleniComponent } from './preduzece/zaposleni/zaposleni.component';
-import { PonudaFormaComponent } from './dokumenta/ponuda/ponuda-forma/ponuda-forma.component';
-import { ProizvodiComponent } from './preduzece/proizvodi/proizvodi.component';
-import { FormaProizvodaComponent } from './preduzece/proizvodi/forma/forma.component';
-
 import { ReactiveFormsModule } from '@angular/forms';
+import { DokumentaModule } from './dokumenta/dokumenta.module';
+
+import { AppComponent } from './app.component';
+import { SidenavComponent } from './shared/sidenav/sidenav.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { DatePipe } from '@angular/common';
 import { ErrorInterceptor } from './utilities/error.interceptor';
-import { MestaComponent } from './porudzbine/mesta/mesta.component';
-import { JedinicaMereComponent } from './preduzece/jedinica-mere/jedinica-mere.component';
-import { CeneComponent } from './preduzece/proizvodi/cene/cene.component';
-import { KnjigaTocejnaComponent } from './dokumenta/knjiga-tocejna/knjiga-tocejna.component';
-import { FormaKnjigeTocenjaComponent } from './dokumenta/knjiga-tocejna/forma/forma.component';
-import { KlijentiComponent } from './porudzbine/klijenti/klijenti.component';
-import { StavkeRacunaComponent } from './dokumenta/racun/stavke-racuna/stavke-racuna.component';
-import { FormaRacunComponent } from './dokumenta/racun/forma-racun/forma-racun.component';
-import { OtpremnicaComponent } from './dokumenta/otpremnica/otpremnica.component';
-import { EditProizvodComponent } from './preduzece/proizvodi/edit-proizvod/edit-proizvod.component';
-import { UpdateKnjigaComponent } from './dokumenta/knjiga-tocejna/update-knjiga/update-knjiga.component';
-import { UliceComponent } from './porudzbine/ulice/ulice.component';
+import { PorudzbineModule } from './porudzbine/porudzbine.module';
+import { PreduzeceModule } from './preduzece/preduzece.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidenavComponent,
     DashboardComponent,
-    RacunComponent,
-    DokumentaComponent,
-    PonudaComponent,
-    ZaposleniComponent,
-    PonudaFormaComponent,
-    ProizvodiComponent,
-    FormaProizvodaComponent,
-    MestaComponent,
-    JedinicaMereComponent,
-    CeneComponent,
-    KnjigaTocejnaComponent,
-    FormaKnjigeTocenjaComponent,
-    KlijentiComponent,
-    StavkeRacunaComponent,
-    FormaRacunComponent,
-    OtpremnicaComponent,
-    EditProizvodComponent,
-    UpdateKnjigaComponent,
-    UliceComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
     ReactiveFormsModule,
+    DokumentaModule,
+    PorudzbineModule,
+    PreduzeceModule,
+    AppRoutingModule,
   ],
   providers: [
     DatePipe,
