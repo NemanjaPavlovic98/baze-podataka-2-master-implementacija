@@ -5,20 +5,10 @@
   justify-content: center;
 
   .content {
-    table {
-      width: 800px;
-      max-width: 95%;
-
-      mat-icon{
-        cursor: pointer;
-      }
-    }
-
     button {
       margin: 16px 8px 16px 0;
     }
   }
-  
 
   .form {
     mat-card {
@@ -34,12 +24,12 @@
       width: 100%;
     }
 
-    .w-70{
+    .w-70 {
       width: 69%;
       margin: 0px 1px;
     }
 
-    .w-30{
+    .w-30 {
       width: 29%;
       margin: 0px 1px;
     }

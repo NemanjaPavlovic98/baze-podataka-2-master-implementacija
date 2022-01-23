@@ -9,6 +9,7 @@ import { EditProizvodComponent } from './proizvodi/edit-proizvod/edit-proizvod.c
 import { CeneComponent } from './proizvodi/cene/cene.component';
 import { ZaposleniComponent } from './zaposleni/zaposleni.component';
 import { JedinicaMereComponent } from './jedinica-mere/jedinica-mere.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -26,6 +27,7 @@ import { JedinicaMereComponent } from './jedinica-mere/jedinica-mere.component';
     PreduzeceRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class PreduzeceModule { }

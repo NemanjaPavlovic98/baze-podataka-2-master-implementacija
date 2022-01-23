@@ -1,51 +1,37 @@
 <div class="container">
-    <div class="content">
-      <h1>Knjiga tocenja</h1>
-        <div class="buttons">
-          <button (click)="onDetaljniPrikaz()" mat-raised-button>{{!detaljniPrikaz ? 'Detaljni' : 'Osnovni'}} prikaz</button>
-          <button [routerLink]="['/dokumenta/knjiga-tocenja/nova-knjiga-tocenja']" mat-raised-button>Dodaj novi rekord</button>
-          </div>
-          <table *ngIf="!detaljniPrikaz" mat-table [dataSource]="dataSourceOsnovno" class="mat-elevation-z8 osnovni-prikaz">
-            <ng-container
-              [matColumnDef]="column"
-              *ngFor="let column of objectKeys(displayedColumnsOsnovno)"
-            >
-              <th mat-header-cell *matHeaderCellDef>{{ displayedColumnsOsnovno[column]}}</th>
-              <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let element">
-                <mat-icon [routerLink]="['/dokumenta/knjiga-tocenja/update-knjiga', element.oznaka]">edit</mat-icon>
-                <mat-icon (click)="onDelete(element.oznaka)">delete</mat-icon>
-              </td>
-            </ng-container>
-        
-            <tr mat-header-row *matHeaderRowDef="objectKeys(displayedColumnsOsnovnoFull)"></tr>
-            <tr mat-row *matRowDef="let row; columns: objectKeys(displayedColumnsOsnovnoFull)"></tr>
-          </table>
-
-          <!-- ========================== -->
-          <table *ngIf="detaljniPrikaz" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            <ng-container
-              [matColumnDef]="column"
-              *ngFor="let column of objectKeys(displayedColumns)"
-            >
-              <th mat-header-cell *matHeaderCellDef>{{ displayedColumns[column]}}</th>
-              <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let element">
-                <mat-icon [routerLink]="['/dokumenta/knjiga-tocenja/update-knjiga', element.oznaka]">edit</mat-icon>
-                <mat-icon (click)="onDelete(element.oznaka)">delete</mat-icon>
-              </td>
-            </ng-container>
-        
-            <tr mat-header-row *matHeaderRowDef="objectKeys(displayedColumnsFull)"></tr>
-            <tr mat-row *matRowDef="let row; columns: objectKeys(displayedColumnsFull)"></tr>
-          </table>
+  <div class="content">
+    <h1>Knjiga tocenja</h1>
+    <div class="buttons">
+      <button (click)="onDetaljniPrikaz()" mat-raised-button>
+        {{ !detaljniPrikaz ? "Detaljni" : "Osnovni" }} prikaz
+      </button>
+      <button
+        [routerLink]="['/dokumenta/knjiga-tocenja/nova-knjiga-tocenja']"
+        mat-raised-button
+      >
+        Dodaj novi rekord
+      </button>
     </div>
+
+    <app-table
+      class="osnovni-prikaz"
+      *ngIf="!detaljniPrikaz"
+      [dataSource]="dataSourceOsnovno"
+      [displayedColumns]="displayedColumnsOsnovno"
+      [actionsForTable]="actions"
+      [tableWidth]="'400px'"
+      (emitOnClick)="onClickAction($event)"
+    ></app-table>
+
+    <!-- Detaljni prikaz -->
+
+    <app-table
+      *ngIf="detaljniPrikaz"
+      [dataSource]="dataSource"
+      [displayedColumns]="displayedColumns"
+      [actionsForTable]="actions"
+      [tableWidth]="'950px'"
+      (emitOnClick)="onClickAction($event)"
+    ></app-table>
+  </div>
 </div>

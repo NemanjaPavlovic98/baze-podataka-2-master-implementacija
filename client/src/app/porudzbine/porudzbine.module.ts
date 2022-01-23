@@ -6,6 +6,7 @@ import { MestaComponent } from './mesta/mesta.component';
 import { KlijentiComponent } from './klijenti/klijenti.component';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     PorudzbineRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class PorudzbineModule { }

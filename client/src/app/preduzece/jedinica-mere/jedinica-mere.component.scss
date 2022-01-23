@@ -5,18 +5,6 @@
     justify-content: center;
   
     .content {
-      table {
-        width: 400px;
-        max-width: 90%;
-  
-        .cdk-column-prezime {
-          width: 100px;
-        }
-        .cdk-column-actions{
-          width: 50px;
-        }
-      }
-  
       button {
         margin: 16px 8px 16px 0;
       }

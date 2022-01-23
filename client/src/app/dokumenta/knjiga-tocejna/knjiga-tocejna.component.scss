@@ -1,29 +1,18 @@
 .container {
-    padding-top: 100px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  
-    table {
-      width: 950px;
-      max-width: 90%;
+  padding-top: 100px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
-      mat-icon{
-        cursor: pointer;
+  app-table.osnovni-prikaz {
+    ::ng-deep{
+      table.mat-table{
+        margin-right: 550px !important;
       }
-  
-      .cdk-column-broj{
-        width: 80px;
-      }
-    }
-
-    table.osnovni-prikaz{
-      width: 400px;
-      margin-right: 550px;
-    }
-  
-    button {
-      margin: 16px 8px 16px 0;
     }
   }
-  
+
+  button {
+    margin: 16px 8px 16px 0;
+  }
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { ActionType, TableActions } from 'src/app/shared/table/table.model';
 import { ToastService } from 'src/app/shared/toast.service';
 import Swal from 'sweetalert2';
 import { Ulica, UlicaTable } from '../models/porudzbine.model';
@@ -8,10 +9,9 @@ import { PorudzbineService } from '../services/porudzbine.service';
 @Component({
   selector: 'app-ulice',
   templateUrl: './ulice.component.html',
-  styleUrls: ['./ulice.component.scss']
+  styleUrls: ['./ulice.component.scss'],
 })
 export class UliceComponent implements OnInit {
-
   @ViewChild('formDirective') private formDirective: NgForm;
 
   mesta = [];
@@ -23,7 +23,22 @@ export class UliceComponent implements OnInit {
     naziv_mesta: 'Naziv mesta',
     naziv_ulice: 'Naziv ulice',
   };
-  displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
+  actions: TableActions[] = [
+    {
+      name: 'edit',
+      icon: 'edit',
+      emit: true,
+      param: ['ulica_id'],
+      type: 'edit',
+    },
+    {
+      name: 'delete',
+      icon: 'delete',
+      emit: true,
+      param: ['ulica_id'],
+      type: 'delete',
+    },
+  ];
   dataSource = [];
 
   constructor(
@@ -31,8 +46,12 @@ export class UliceComponent implements OnInit {
     private toastService: ToastService
   ) {}
 
-  objectKeys(obj) {
-    return Object.keys(obj);
+  onClickAction(data) {
+    if (data.action_type === ActionType.EDIT) {
+      this.onEdit(data.data_id);
+    } else if (data.action_type === ActionType.DELETE) {
+      this.onDelete(data.data_id);
+    }
   }
 
   private getUlice() {
@@ -72,9 +91,13 @@ export class UliceComponent implements OnInit {
           this.form.value[key] = null;
         }
       }
-      
+
       this.porudzbineService
-        .updateUlica(this.updateUlica.ulica_id, this.updateUlica.mesto_id, this.form.value)
+        .updateUlica(
+          this.updateUlica.ulica_id,
+          this.updateUlica.mesto_id,
+          this.form.value
+        )
         .subscribe(() => {
           this.form.reset();
           this.formDirective.resetForm();
@@ -96,11 +119,13 @@ export class UliceComponent implements OnInit {
         const deleteUlica = this.dataSource.find((ulica) => {
           return ulica.ulica_id === id;
         });
-        console.log(deleteUlica)
-        this.porudzbineService.deleteUlica(deleteUlica.ulica_id, deleteUlica.mesto_id).subscribe(() => {
-          Swal.fire('Ulica obrisana!', '', 'success');
-          this.getUlice();
-        });
+        console.log(deleteUlica);
+        this.porudzbineService
+          .deleteUlica(deleteUlica.ulica_id, deleteUlica.mesto_id)
+          .subscribe(() => {
+            Swal.fire('Ulica obrisana!', '', 'success');
+            this.getUlice();
+          });
       }
     });
   }
@@ -113,7 +138,7 @@ export class UliceComponent implements OnInit {
     this.form.patchValue({
       naziv_ulice: this.updateUlica.naziv_ulice,
       mesto: this.updateUlica.mesto_id,
-      naziv_mesta: this.updateUlica.naziv_mesta
+      naziv_mesta: this.updateUlica.naziv_mesta,
     });
   }
 }

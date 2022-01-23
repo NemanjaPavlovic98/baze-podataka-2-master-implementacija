@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActionType, TableActions } from 'src/app/shared/table/table.model';
 import Swal from 'sweetalert2';
 import { FullProizvod, Proizvod } from '../models/proizvodi.model';
 import { PreduzeceService } from '../services/preduzece.service';
@@ -17,13 +18,36 @@ export class ProizvodiComponent implements OnInit {
     naziv_jm: 'Jedinica mere',
     aktuelna_cena: 'Aktuelna cena',
   };
-  displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
+
+  actions: TableActions[] = [
+    {
+      name: 'pregled stavki',
+      icon: 'attach_money',
+      route: '/preduzece/proizvodi/cene',
+      param: ['proizvod_id'],
+    },
+    {
+      name: 'edit',
+      icon: 'edit',
+      route: '/preduzece/proizvodi/edit',
+      param: ['proizvod_id'],
+    },
+    {
+      name: 'delete',
+      icon: 'delete',
+      emit: true,
+      param: ['proizvod_id'],
+      type: 'delete',
+    },
+  ];
   dataSource = [];
 
   constructor(private preduzeceService: PreduzeceService) {}
 
-  objectKeys(obj) {
-    return Object.keys(obj);
+  onClickAction(data) {
+    if (data.action_type === ActionType.DELETE) {
+      this.onDelete(data.data_id);
+    }
   }
 
   getProizvodi() {
@@ -36,7 +60,8 @@ export class ProizvodiComponent implements OnInit {
           ...el,
           opis: typeof novi_p_info !== 'undefined' ? novi_p_info[0] : null,
           jacina: typeof novi_p_info !== 'undefined' ? novi_p_info[1] : null,
-          br_analize: typeof novi_p_info !== 'undefined' ? novi_p_info[2] : null,
+          br_analize:
+            typeof novi_p_info !== 'undefined' ? novi_p_info[2] : null,
         };
       });
       this.dataSource = formatedData;

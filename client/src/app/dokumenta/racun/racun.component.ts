@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  ActionType,
+  EmitAction,
+  TableActions,
+} from 'src/app/shared/table/table.model';
 import Swal from 'sweetalert2';
 import { PonudaService } from '../services/dokumenta.service';
 
@@ -18,14 +23,31 @@ export class RacunComponent implements OnInit {
     tekuci_racun: 'Za racun',
     ukupan_iznos: 'Ukupan iznos',
   };
-  displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
   dataSource = [];
+  actions: TableActions[] = [
+    {
+      name: 'pregled stavki',
+      icon: 'attach_file',
+      route: '/dokumenta/racun/stavke-racuna',
+      param: ['broj_racuna'],
+    },
+    {
+      name: 'edit',
+      icon: 'edit',
+      route: '/dokumenta/racun/azurira-racun',
+      param: ['broj_racuna'],
+    },
+    {
+      name: 'delete',
+      icon: 'delete',
+      emit: true,
+      param: ['broj_racuna', 'mesto_izdavanja'],
+      type: 'delete',
+    },
+  ];
 
   constructor(private ponudaService: PonudaService) {}
 
-  objectKeys(obj) {
-    return Object.keys(obj);
-  }
   getRacuni() {
     this.ponudaService.getRacuni().subscribe((res) => {
       this.dataSource = res;
@@ -33,6 +55,12 @@ export class RacunComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getRacuni();
+  }
+
+  onClickAction(data) {
+    if (data.action_type === ActionType.DELETE) {
+      this.onDelete(data.data_id)
+    }
   }
 
   onDelete(id: number) {

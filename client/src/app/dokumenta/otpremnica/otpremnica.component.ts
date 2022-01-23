@@ -1,6 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import {
+  ActionType,
+  EmitAction,
+  TableActions,
+} from 'src/app/shared/table/table.model';
 import { ToastService } from 'src/app/shared/toast.service';
 import Swal from 'sweetalert2';
 import { Otpremnica } from '../models/ponuda.model';
@@ -17,7 +22,7 @@ export class OtpremnicaComponent implements OnInit {
   form: FormGroup;
   knjigeTocenja = [];
   editMode = false;
-  updateOtpremnica: Partial<Otpremnica>
+  updateOtpremnica: Partial<Otpremnica>;
 
   displayedColumns = {
     broj_otpremnice: 'Broj otpremnice',
@@ -27,7 +32,24 @@ export class OtpremnicaComponent implements OnInit {
     oznaka: 'Oznaka knjige tocenja',
     izdanje: 'Izdanje knjige tocenja',
   };
-  displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
+
+  actions: TableActions[] = [
+    {
+      name: 'edit',
+      icon: 'edit',
+      emit: true,
+      param: ['broj_otpremnice'],
+      type: 'edit',
+    },
+    {
+      name: 'delete',
+      icon: 'delete',
+      emit: true,
+      param: ['broj_otpremnice'],
+      type: 'delete',
+    },
+  ];
+
   dataSource = [];
 
   constructor(
@@ -35,10 +57,6 @@ export class OtpremnicaComponent implements OnInit {
     private ponudaService: PonudaService,
     private datepipe: DatePipe
   ) {}
-
-  objectKeys(obj) {
-    return Object.keys(obj);
-  }
 
   private getOtpremnice() {
     this.ponudaService.getOtpremnice().subscribe((res) => {
@@ -60,6 +78,14 @@ export class OtpremnicaComponent implements OnInit {
     });
   }
 
+  onClickAction(data) {
+    if (data.action_type === ActionType.EDIT) {
+      this.onEdit(data.data_id);
+    } else if (data.action_type === ActionType.DELETE) {
+      this.onDelete(data.data_id);
+    }
+  }
+
   onAddNew() {
     if (!this.editMode) {
       this.form.value.datum = this.datepipe.transform(
@@ -78,18 +104,23 @@ export class OtpremnicaComponent implements OnInit {
           this.form.value[key] = null;
         }
       }
-      
+
       this.ponudaService
-        .updateOtpremnica(this.updateOtpremnica.broj_otpremnice, this.form.value)
+        .updateOtpremnica(
+          this.updateOtpremnica.broj_otpremnice,
+          this.form.value
+        )
         .subscribe(() => {
           this.form.reset();
           this.formDirective.resetForm();
-          this.toastService.fireToast('success', 'Otpremnica je uspesno azurirana!');
+          this.toastService.fireToast(
+            'success',
+            'Otpremnica je uspesno azurirana!'
+          );
           this.editMode = false;
           this.getOtpremnice();
         });
     }
-    
   }
 
   onDelete(id: number) {

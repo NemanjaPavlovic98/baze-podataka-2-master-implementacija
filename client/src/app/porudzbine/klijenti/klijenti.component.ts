@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActionType, TableActions } from 'src/app/shared/table/table.model';
 import { ToastService } from 'src/app/shared/toast.service';
 import Swal from 'sweetalert2';
 import { Kupac } from '../models/porudzbine.model';
@@ -27,7 +28,24 @@ export class KlijentiComponent implements OnInit {
     naziv_ulice: 'Ulica',
     broj: 'Broj ulice',
   };
-  displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
+
+  actions: TableActions[] = [
+    {
+      name: 'edit',
+      icon: 'edit',
+      emit: true,
+      param: ['kupac_id'],
+      type: 'edit',
+    },
+    {
+      name: 'delete',
+      icon: 'delete',
+      emit: true,
+      param: ['kupac_id'],
+      type: 'delete',
+    },
+  ];
+
   dataSource = [];
   mesta = [];
   ulice = [];
@@ -37,13 +55,17 @@ export class KlijentiComponent implements OnInit {
     private toastService: ToastService
   ) {}
 
-  objectKeys(obj) {
-    return Object.keys(obj);
+  onClickAction(data) {
+    if (data.action_type === ActionType.EDIT) {
+      this.onEdit(data.data_id);
+    } else if (data.action_type === ActionType.DELETE) {
+      this.onDelete(data.data_id);
+    }
   }
 
   private getKlijent() {
     this.porudzbineService.getKupci().subscribe((res) => {
-      console.log(res)
+      console.log(res);
       this.dataSource = res;
     });
   }
@@ -73,12 +95,12 @@ export class KlijentiComponent implements OnInit {
       broj: new FormControl(null),
     });
   }
-  getUliceZaMesto(mesto_id: number){
+  getUliceZaMesto(mesto_id: number) {
     this.getUlice(mesto_id);
   }
 
   onAddNew() {
-    console.log(this.form.value)
+    console.log(this.form.value);
     if (!this.editMode) {
       this.porudzbineService.postKupac(this.form.value).subscribe((res) => {
         this.form.reset();
@@ -92,7 +114,7 @@ export class KlijentiComponent implements OnInit {
           this.form.value[key] = null;
         }
       }
-      
+
       this.porudzbineService
         .updateKupac(this.updateKlijent.kupac_id, {
           ...this.form.value,
@@ -133,7 +155,7 @@ export class KlijentiComponent implements OnInit {
     this.updateKlijent = this.dataSource.find((mest) => {
       return mest.kupac_id === id;
     });
-    this.getUlice(this.updateKlijent.mesto_id)
+    this.getUlice(this.updateKlijent.mesto_id);
 
     this.form.patchValue({
       naziv: this.updateKlijent.naziv,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActionType, TableActions } from 'src/app/shared/table/table.model';
 import Swal from 'sweetalert2';
 import { KnjigaTocenjaOsnovno } from '../models/ponuda.model';
 import { PonudaService } from '../services/dokumenta.service';
@@ -26,16 +27,28 @@ export class KnjigaTocejnaComponent implements OnInit {
     izdanje: 'Izdanje'
   };
 
+  actions: TableActions[] = [
+    {
+      name: 'edit',
+      icon: 'edit',
+      route: '/dokumenta/knjiga-tocenja/update-knjiga',
+      param: ['oznaka'],
+    },
+    {
+      name: 'delete',
+      icon: 'delete',
+      emit: true,
+      param: ['oznaka'],
+      type: 'delete',
+    },
+  ];
+
   displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
   displayedColumnsOsnovnoFull = { ...this.displayedColumnsOsnovno, actions: 'Akcije' };
   dataSource = [];
   dataSourceOsnovno = [];
 
   constructor(private ponudaService: PonudaService) {}
-
-  objectKeys(obj) {
-    return Object.keys(obj);
-  }
 
   getKnjigaTocenjaOsnovno(){
     this.ponudaService.getKnjigeTocenjaOsnovno().subscribe((res: KnjigaTocenjaOsnovno[]) => {
@@ -55,6 +68,12 @@ export class KnjigaTocejnaComponent implements OnInit {
     
   }
 
+  onClickAction(data){
+    if(data.action_type === ActionType.DELETE){
+      this.onDelete(data.data_id)
+    }
+  }
+
   onDetaljniPrikaz() {
     this.detaljniPrikaz = !this.detaljniPrikaz;
   }
@@ -68,7 +87,7 @@ export class KnjigaTocejnaComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.ponudaService.deleteKnjigaTocenja(id).subscribe(() => {
-          Swal.fire('Klijent obrisan!', '', 'success');
+          Swal.fire('Rekord knjige je obrisan!', '', 'success');
           this.detaljniPrikaz = false;
           this.getKnjigaTocenjaOsnovno();
           this.getKnjigaTocenja();

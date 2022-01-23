@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActionType, TableActions } from 'src/app/shared/table/table.model';
 import { ToastService } from 'src/app/shared/toast.service';
 import Swal from 'sweetalert2';
 import { Mesto } from '../models/porudzbine.model';
@@ -22,17 +23,29 @@ export class MestaComponent implements OnInit {
     postanski_broj: 'Postanski broj',
     naziv_mesta: 'Naziv mesta',
   };
-  displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
+
+  actions: TableActions[] = [
+    {
+      name: 'edit',
+      icon: 'edit',
+      emit: true,
+      param: ['mesto_id'],
+      type: 'edit',
+    },
+    {
+      name: 'delete',
+      icon: 'delete',
+      emit: true,
+      param: ['mesto_id'],
+      type: 'delete',
+    },
+  ];
   dataSource = [];
 
   constructor(
     private porudzbineService: PorudzbineService,
     private toastService: ToastService
   ) {}
-
-  objectKeys(obj) {
-    return Object.keys(obj);
-  }
 
   private getMesta() {
     this.porudzbineService.getMesta().subscribe((res) => {
@@ -48,14 +61,24 @@ export class MestaComponent implements OnInit {
     });
 
     this.formSearch = new FormGroup({
-      pretraga: new FormControl(null, Validators.required)
+      pretraga: new FormControl(null, Validators.required),
     });
   }
 
-  onSearch(){
-    this.porudzbineService.getMesta(this.formSearch.value.pretraga).subscribe(res => {
-      this.dataSource = res
-    });
+  onClickAction(data) {
+    if (data.action_type === ActionType.EDIT) {
+      this.onEdit(data.data_id);
+    } else if (data.action_type === ActionType.DELETE) {
+      this.onDelete(data.data_id);
+    }
+  }
+
+  onSearch() {
+    this.porudzbineService
+      .getMesta(this.formSearch.value.pretraga)
+      .subscribe((res) => {
+        this.dataSource = res;
+      });
   }
 
   onAddNew() {
@@ -72,7 +95,7 @@ export class MestaComponent implements OnInit {
           this.form.value[key] = null;
         }
       }
-      
+
       this.porudzbineService
         .updateMesto(this.updateMesto.mesto_id, this.form.value)
         .subscribe(() => {

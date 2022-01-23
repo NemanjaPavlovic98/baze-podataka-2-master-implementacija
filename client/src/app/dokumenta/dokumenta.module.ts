@@ -12,6 +12,7 @@ import { DokumentaRoutingModule } from './dokumenta-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormaKnjigeTocenjaComponent } from './knjiga-tocejna/forma/forma.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,13 +24,14 @@ import { FormaKnjigeTocenjaComponent } from './knjiga-tocejna/forma/forma.compon
     PonudaComponent,
     PonudaFormaComponent,
     OtpremnicaComponent,
-    FormaKnjigeTocenjaComponent
+    FormaKnjigeTocenjaComponent,
   ],
   imports: [
     CommonModule,
     DokumentaRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    SharedModule
   ],
   exports: [],
 })

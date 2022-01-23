@@ -4,6 +4,11 @@ import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Proizvod } from 'src/app/preduzece/models/proizvodi.model';
 import { PreduzeceService } from 'src/app/preduzece/services/preduzece.service';
+import {
+  ActionType,
+  EmitAction,
+  TableActions,
+} from 'src/app/shared/table/table.model';
 import { ToastService } from 'src/app/shared/toast.service';
 import Swal from 'sweetalert2';
 import { PonudaService } from '../../services/dokumenta.service';
@@ -28,24 +33,34 @@ export class StavkeRacunaComponent implements OnInit {
     proizvod_id: 'Proizvod ID',
     naziv: 'Naziv proizvoda',
   };
-  displayedColumnsFull = { ...this.displayedColumns, actions: 'Akcije' };
   dataSource = [];
+
+  actions: TableActions[] = [
+    {
+      name: 'edit',
+      icon: 'edit',
+      emit: true,
+      param: ['sifra_stavke'],
+      type: 'edit',
+    },
+    {
+      name: 'delete',
+      icon: 'delete',
+      emit: true,
+      param: ['sifra_stavke'],
+      type: 'delete',
+    },
+  ];
 
   form: FormGroup;
   editMode = false;
-  // updateKlijent: Partial<Kupac>;
 
   constructor(
     private dokumentaService: PonudaService,
     private preduzeceService: PreduzeceService,
     private toastService: ToastService,
     private route: ActivatedRoute,
-    private datepipe: DatePipe
   ) {}
-
-  objectKeys(obj) {
-    return Object.keys(obj);
-  }
 
   private getStavkeRacuna() {
     this.dokumentaService.getStavkeRacuna(this.racunId).subscribe((res) => {
@@ -68,6 +83,14 @@ export class StavkeRacunaComponent implements OnInit {
     });
   }
 
+  onClickAction(data) {
+    if (data.action_type === ActionType.EDIT) {
+      this.onEdit(data.data_id);
+    } else if (data.action_type === ActionType.DELETE) {
+      this.onDelete(data.data_id);
+    }
+  }
+
   onAddNew() {
     for (const key in this.form.value) {
       if (this.form.value[key] === '') {
@@ -75,19 +98,19 @@ export class StavkeRacunaComponent implements OnInit {
       }
     }
 
-    this.dokumentaService.updateStavkaRacuna(
-      {
+    this.dokumentaService
+      .updateStavkaRacuna({
         ...this.form.value,
         sifra_stavke: this.sifraStavkeEdit,
-        broj_racuna: this.racunId
-      }
-    ).subscribe(() => {
-      this.form.reset();
-      this.formDirective.resetForm();
-      this.toastService.fireToast('success', 'Stavka uspesno azurirana!');
-      this.editMode = false;
-      this.getStavkeRacuna();
-    })
+        broj_racuna: this.racunId,
+      })
+      .subscribe(() => {
+        this.form.reset();
+        this.formDirective.resetForm();
+        this.toastService.fireToast('success', 'Stavka uspesno azurirana!');
+        this.editMode = false;
+        this.getStavkeRacuna();
+      });
   }
 
   onDelete(sifra_stavke: number) {
@@ -118,7 +141,7 @@ export class StavkeRacunaComponent implements OnInit {
     this.form.patchValue({
       kolicina: updateStavka.kolicina,
       iznos: updateStavka.iznos,
-      proizvod: updateStavka.proizvod_id
+      proizvod: updateStavka.proizvod_id,
     });
   }
 }
